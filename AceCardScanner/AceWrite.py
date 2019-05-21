@@ -17,20 +17,17 @@ print("Place card on the the scanner to write")
 uid = pn532.read_passive_target()
 while uid is None:
     uid = pn532.read_passive_target()
-print(uid)
-print(binascii.hexlify(uid))
 
-print("Authenticating...")
+print(uid)
+
 if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
                                                CARD_KEY):
     print('Error! Failed to authenticate block 4 with the card.')
     sys.exit(-1)
 
 
-# data = bytearray(16)
-# data[0:4] = b'MCPI'
-# data[4] = binascii.unhexlify('helloworld')
-data = bytearray('cccccccccccccccc', 'utf-8')
+data = bytearray(binascii.unhexlify('1234567891234567891234567891234a'))
+# data = bytearray('cccccccccccccccc', 'utf-8')
 
 block = int(input("Which block do you want to write to?"))
 if not pn532.mifare_classic_write_block(block, data):

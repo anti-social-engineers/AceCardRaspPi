@@ -31,10 +31,9 @@ block = int(input("Which block do you want to read?"))
 data = pn532.mifare_classic_read_block(block)
 if data is None:
     print('Failed to read block 4!')
-# print('Read block 4: 0x{0}'.format(data.decode('utf-8')))
-print(data)
-print("-------------------------------------")
-print('Read block 4:{0}'.format(data.decode('utf-8')))
+
+# print('Read block 4:{0}'.format(data.decode('utf-8')))
+print('Read block 4:{0}'.format(binascii.hexlify(data)))
 
 
 
