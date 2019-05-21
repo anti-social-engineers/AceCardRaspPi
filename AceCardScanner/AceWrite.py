@@ -27,12 +27,11 @@ if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
     sys.exit(-1)
 
 
-data = bytearray(16)
-data[0:4] = b'MCPI'
-data[4] = binascii.unhexlify('helloworld')
-print(type(data))
-if len(data) > 16:
-    print("length is over 16")
+# data = bytearray(16)
+# data[0:4] = b'MCPI'
+# data[4] = binascii.unhexlify('helloworld')
+data = bytearray('aaaaaaaaaaaaaaaa', 'utf-8')
+
 
 if not pn532.mifare_classic_write_block(4, data):
     print('Error! Failed to write to the card.')

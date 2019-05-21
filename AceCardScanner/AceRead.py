@@ -16,6 +16,7 @@ print("Waiting for Ace card...")
 
 while True:
     uid = pn532.read_passive_target()
+    print(uid)
     if uid is not None:
         print("UID = " + str(binascii.hexlify(uid)))
         break
@@ -29,7 +30,7 @@ if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
 data = pn532.mifare_classic_read_block(4)
 if data is None:
     print('Failed to read block 4!')
-print('Read block 4: 0x{0}'.format(binascii.hexlify(data[:4])))
+print('Read block 4: 0x{0}'.format(data.decode('utf-8')))
 
 
 
