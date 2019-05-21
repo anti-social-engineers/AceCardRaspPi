@@ -30,7 +30,7 @@ if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
 # data = bytearray(16)
 # data[0:4] = b'MCPI'
 # data[4] = binascii.unhexlify('helloworld')
-data = bytearray('bbbbbbbbbbb', 'utf-8')
+data = bytearray('bbbbbbbbbbbbbbbb', 'utf-8')
 
 block = int(input("Which block do you want to write to?"))
 if not pn532.mifare_classic_write_block(4, block):
