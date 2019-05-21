@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed6191f2-e51a-4f6a-b377-e068a0d9afa8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AceCardScanner/AceRead.py" afterPath="$PROJECT_DIR$/AceCardScanner/AceRead.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AceCardScanner/AceWrite.py" afterPath="$PROJECT_DIR$/AceCardScanner/AceWrite.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AceCardScanner/test.py" afterPath="$PROJECT_DIR$/AceCardScanner/test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="AceWrite.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AceWrite.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AceCardScanner/AceWrite.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="246">
-              <caret line="32" column="28" lean-forward="false" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
+              <caret line="32" column="34" lean-forward="false" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="34" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -50,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AceRead.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AceRead.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AceCardScanner/AceRead.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="35" column="44" lean-forward="false" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
+            <state relative-caret-position="321">
+              <caret line="30" column="44" lean-forward="false" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="44" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -77,9 +75,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/AceCardScanner/AceWrite.py" />
         <option value="$PROJECT_DIR$/AceCardScanner/test.py" />
         <option value="$PROJECT_DIR$/AceCardScanner/AceRead.py" />
+        <option value="$PROJECT_DIR$/AceCardScanner/AceWrite.py" />
       </list>
     </option>
   </component>
@@ -290,20 +288,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AceCardScanner/AceWrite.py">
+    <entry file="file://$PROJECT_DIR$/AceCardScanner/AceRead.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="32" column="28" lean-forward="false" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
+        <state relative-caret-position="321">
+          <caret line="30" column="44" lean-forward="false" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="44" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AceCardScanner/AceRead.py">
+    <entry file="file://$PROJECT_DIR$/AceCardScanner/AceWrite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="35" column="44" lean-forward="false" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
+        <state relative-caret-position="246">
+          <caret line="32" column="34" lean-forward="false" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="34" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
