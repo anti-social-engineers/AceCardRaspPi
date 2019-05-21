@@ -28,7 +28,7 @@ if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
 
 data = bytearray(16)
 data[0:4] = b'MCPI'
-data[4] = 'Hello world' & 0xFF
+data[4] = 'hello world'
 
 if not pn532.mifare_classic_write_block(4, data):
     print('Error! Failed to write to the card.')
