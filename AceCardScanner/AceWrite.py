@@ -26,8 +26,8 @@ if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
     print('Error! Failed to authenticate block 4 with the card.')
     sys.exit(-1)
 
-"Starting writing "
-data = "hello world"
+data = bytearray("Hello world")
+
 if not pn532.mifare_classic_write_block(4, data):
     print('Error! Failed to write to the card.')
     sys.exit(-1)
