@@ -33,7 +33,7 @@ if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
 data = bytearray('bbbbbbbbbbbbbbbb', 'utf-8')
 
 block = int(input("Which block do you want to write to?"))
-if not pn532.mifare_classic_write_block(4, block):
+if not pn532.mifare_classic_write_block(block, data):
     print('Error! Failed to write to the card.')
     sys.exit(-1)
 print("Writing succesfull")
