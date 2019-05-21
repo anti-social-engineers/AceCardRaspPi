@@ -18,12 +18,10 @@ uid = pn532.read_passive_target()
 while uid is None:
     uid = pn532.read_passive_target()
 
-print(uid)
-
-if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
-                                               CARD_KEY):
-    print('Error! Failed to authenticate block 4 with the card.')
-    sys.exit(-1)
+# if not pn532.mifare_classic_authenticate_block(uid, 4, PN532.MIFARE_CMD_AUTH_B,
+#                                                CARD_KEY):
+#     print('Error! Failed to authenticate block 4 with the card.')
+#     sys.exit(-1)
 
 
 data = bytearray(binascii.unhexlify('1234567891234567891234567891234a'))
