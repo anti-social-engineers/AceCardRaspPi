@@ -16,7 +16,7 @@ import binascii
 # print(l)
 
 
-data = '123456789123456789A23C5678912345'
+data = '12345678A123456789A23C5678912345'
 dataHex = binascii.unhexlify(data)
 dataArray = bytearray(dataHex)
 print(len(dataArray))

@@ -21,7 +21,7 @@ print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
 while True:
     uid = pn532.read_passive_target()
     if uid is not None:
-        print('Found card with UID: {0)'.format((binascii.hexlify(uid))))
+        print('Found card with UID: {0}'.format((binascii.hexlify(uid))))
         block = int(input("Which block to read?"))
         if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_B,
                                                        key):
