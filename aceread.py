@@ -33,7 +33,7 @@ while True:
                 print('Failed to read block {0}!'.format(block))
                 continue
             else:
-                print('Reading block {0}: {1}'.format(block, binascii.hexlify(data)))
+                print('Reading block {0}: {1}'.format(block, data.decode('utf-8')))
     else:
         continue
 

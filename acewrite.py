@@ -1,5 +1,7 @@
 import binascii
 import sys
+import random
+import string
 
 import Adafruit_PN532 as PN532
 
@@ -40,9 +42,8 @@ else:
         print('Error! Failed to authenticate block with the card.')
         sys.exit(-1)
 
-    data = '12345678A123456789A23C5678912345'
-    dataHex = binascii.unhexlify(data)
-    dataArray = bytearray(dataHex)
+    data = 'abcd1234abcd1234'
+    dataArray = bytearray(data, 'utf-8')
     if not pn532.mifare_classic_write_block(block, dataArray):
         print('Error! Failed to write to the card.')
         sys.exit(-1)
