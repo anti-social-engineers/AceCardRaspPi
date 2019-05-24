@@ -27,19 +27,15 @@ def Read():
           blocks = {5, 10, 12, 18, 20, 25, 30, 37, 41, 46, 48, 54, 57, 62}
           
           for block in blocks:
-            if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_B,
-                                                           key):
+            if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_B, key):
                 CardContent += (('Failed to authenticate block {0}!'.format(block)) + "\n")
-                continue
             else:
                 data = pn532.mifare_classic_read_block(block)
                 if data is None:
                     CardContent += (('Failed to read block {0}!'.format(block)) + "\n")
-                    continue
                 else:
                     CardContent += (('Reading block {0}: {1}'.format(block, binascii.hexlify(data))) + "\n")
-            return CardContent
+          return CardContent
       else:
           continue
 
-print(Read())
