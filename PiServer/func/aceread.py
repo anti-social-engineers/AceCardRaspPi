@@ -17,13 +17,13 @@ def Read():
   pn532.begin()
 
   ic, ver, rev, support = pn532.get_firmware_version()
-  return('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
+#  return('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
 
 
-  #while True:
-#      uid = pn532.read_passive_target()
-#      if uid is not None:
-#          print('Found card with UID: {0}'.format((binascii.hexlify(uid))))
+  while True:
+      uid = pn532.read_passive_target()
+      if uid is not None:
+          return('Found card with UID: {0}'.format((binascii.hexlify(uid))))
 #          block = int(input("Which block to read?"))
 #          if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_B,
 #                                                         key):
@@ -36,6 +36,6 @@ def Read():
 #                  continue
 #                                                         else:
 #                  print('Reading block {0}: {1}'.format(block, binascii.hexlify(data)))
-#  else:
-#      continue
+      else:
+          continue
 
