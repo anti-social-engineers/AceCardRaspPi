@@ -31,22 +31,22 @@ import hashlib
 # print(dec)
 
 
-x = '1234abcd'
-f = bytearray(x, 'utf-8')
-print(f)
-print(f.decode('utf-8'))
-f = bytearray(base64.b64encode(f))
-length = int(len(f) /2)
-a = f[0:length]
-print("here {0}".format(a))
+# x = '1234abcd'
+# f = bytearray(x, 'utf-8')
+# print(f)
+# print(f.decode('utf-8'))
+# f = bytearray(base64.b64encode(f))
+# length = int(len(f) /2)
+# a = f[0:length]
+# print("here {0}".format(a))
+#
+#
+# p = f.decode('utf-8')
+#
+#
+# s = base64.b64decode(p).decode('utf-8')
 
-
-p = f.decode('utf-8')
-
-
-s = base64.b64decode(p).decode('utf-8')
-
-print(s)
+# print(s)
 
 # key = hashlib.sha256('p3s6v9y$B&E)H@McQfTjWmZq4t7w!z%C*F-JaNdRgUkXp2r5u8x/A?D(G+KbPeSh'.encode()).digest()
 # iv = Random.new().read(AES.block_size)
@@ -70,3 +70,10 @@ print(s)
 
 
 
+x = bytearray('000000000000000'.encode('utf-8'))
+print(x)
+
+data = x
+test = bytearray(data).decode('utf-8')
+
+print(test)

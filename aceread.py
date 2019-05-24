@@ -33,7 +33,9 @@ while True:
                 print('Failed to read block {0}!'.format(block))
                 continue
             else:
-                print('Reading block {0}: {1}'.format(block, data.decode('utf-8')))
+                print(type(data))
+                test = bytearray(data).decode('utf-8')
+                print('Reading block {0}: {1}'.format(block, test))
     else:
         continue
 
