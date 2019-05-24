@@ -23,7 +23,7 @@ while True:
     if uid is not None:
         print('Found card with UID: {0}'.format((binascii.hexlify(uid))))
         block = int(input("Which block to read?"))
-        if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_B,
+        if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_A,
                                                        key):
             print('Failed to authenticate block {0}!'.format(block))
             continue

@@ -37,7 +37,7 @@ block = int(input("Which block"))
 if block in block_blacklist:
     print("Not allowed to write in sector trailers!")
 else:
-    if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_B,
+    if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_A,
                                                CARD_KEY):
         print('Error! Failed to authenticate block with the card.')
         sys.exit(-1)
