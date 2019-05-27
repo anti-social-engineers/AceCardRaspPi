@@ -4,7 +4,7 @@ import Adafruit_PN532 as PN532
 from key import getkey
 
 # PN532 configuration for a Raspberry Pi:
-CS   = 18
+CS = 18
 MOSI = 23
 MISO = 24
 SCLK = 25

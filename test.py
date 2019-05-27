@@ -49,15 +49,19 @@ from key import getkey
 
 # print(s)
 
-key = hashlib.sha256('p3s6v9y$B&E)H@McQfTjWmZq4t7w!z%C*F-JaNdRgUkXp2r5u8x/A?D(G+KbPeSh'.encode()).digest()
+
+key = hashlib.sha256('C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS'.encode()).digest()
 iv = Random.new().read(AES.block_size)
 aes = AES.new(key, AES.MODE_CBC, iv)
 data = '1234567812345678'
 encr = base64.b64encode(aes.encrypt(data.encode()))
 print(len(encr))
-print(encr)
+z = bytearray(encr)
+print(z)
 
-enc = base64.b64decode(encr)
+
+enc = base64.b64decode(z)
+print(enc)
 aec = AES.new(key, AES.MODE_CBC, iv)
 decd = (aec.decrypt(enc)).decode()
 
@@ -80,10 +84,27 @@ print(decd)
 #
 
 
+# CARD_KEY_A = [0x6B, 0x3D, 0x73, 0x34, 0x4C, 0x29]
+# CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
+#
+# CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+#
+# test = bytearray(CARD_KEY_A + [0x08, 0x77, 0x8F, 0xFF] + CARD_KEY_B).hex()
+# s = " ".join(test[i:i+2] for i in range(0, len(test), 2))
+#
+#
+# CARD_KEY_A1 = '6B 3D 73 34 4C 29'
+# CARD_KEY_B1 = '75 42 64 35 5f 5d'
+# f = (CARD_KEY_A1 + ' ' + '08 77 8F FF' + ' ' + CARD_KEY_B1)
+
+# print('6B 3D 73 34 4C 29 08 77 8F FF 75 42 64 35 5f 5d' == f)
+# print(test)
+# print(s)
+
+
+
+
 CARD_KEY_A = [0x6B, 0x3D, 0x73, 0x34, 0x4C, 0x29]
 CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
 
 CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-test = bytearray(CARD_KEY_A + [0x08, 0x77, 0x8F, 0xFF] + CARD_KEY_B)
-print(len(test))
