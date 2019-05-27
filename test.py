@@ -3,6 +3,7 @@ import base64, uuid
 from Crypto.Cipher import AES
 from Crypto import Random
 import hashlib
+from key import getkey
 
 # BS = 32
 # pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
@@ -79,3 +80,4 @@ print(decd)
 #
 CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 print(type(bytearray(CARD_KEY)))
+

@@ -3,6 +3,11 @@ CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
 
 CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
+try:
+    raw_input = input
+except NameError:
+    pass
+
 def getkey():
     choice = str(input("which key? a/b/d(default)"))
     if choice.lower() == "a":
