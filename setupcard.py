@@ -39,10 +39,10 @@ else:
         print('Error! Failed to authenticate block with the card.')
         sys.exit(-1)
 
-    accessbits = [0x08, 0x77, 0x8F, 0xFF]
+    accessbits = '6B 3D 73 34 4C 29 08 77 8F FF 75 42 64 35 5f 5d'
     sectorTrailer = CARD_KEY_A + accessbits + CARD_KEY_B
     print(sectorTrailer)
-    dataArray = bytearray(sectorTrailer)
+    dataArray = bytearray.fromhex(accessbits)
     if not pn532.mifare_classic_write_block(block, dataArray):
         print('Error! Failed to write to the card.')
         sys.exit(-1)
