@@ -48,20 +48,19 @@ import hashlib
 
 # print(s)
 
-# key = hashlib.sha256('p3s6v9y$B&E)H@McQfTjWmZq4t7w!z%C*F-JaNdRgUkXp2r5u8x/A?D(G+KbPeSh'.encode()).digest()
-# iv = Random.new().read(AES.block_size)
-# aes = AES.new(key, AES.MODE_CBC, iv)
-# data = '1234567812345678'
-# encr = base64.b64encode(aes.encrypt(data.encode()))
-# print(len(encr))
-# print(encr)
-#
-#
-# enc = base64.b64decode(encr)
-# aec = AES.new(key, AES.MODE_CBC, iv)
-# decd = aec.decrypt(enc)
-#
-# print(decd)
+key = hashlib.sha256('p3s6v9y$B&E)H@McQfTjWmZq4t7w!z%C*F-JaNdRgUkXp2r5u8x/A?D(G+KbPeSh'.encode()).digest()
+iv = Random.new().read(AES.block_size)
+aes = AES.new(key, AES.MODE_CBC, iv)
+data = '1234567812345678'
+encr = base64.b64encode(aes.encrypt(data.encode()))
+print(len(encr))
+print(encr)
+
+enc = base64.b64decode(encr)
+aec = AES.new(key, AES.MODE_CBC, iv)
+decd = (aec.decrypt(enc)).decode()
+
+print(decd)
 
 # dataHex = binascii.unhexlify(data)
 #     # dataArray = bytearray(dataHex)
@@ -70,10 +69,13 @@ import hashlib
 
 
 
-x = bytearray('000000000000000'.encode('utf-8'))
-print(x)
-
-data = x
-test = bytearray(data).decode('utf-8')
-
-print(test)
+# x = bytearray('000000000000000'.encode('utf-8'))
+# print(x)
+#
+# data = x
+# test = bytearray(data).decode('utf-8')
+#
+# print(test)
+#
+CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+print(type(bytearray(CARD_KEY)))

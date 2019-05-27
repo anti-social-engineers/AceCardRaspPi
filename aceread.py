@@ -1,6 +1,6 @@
 import binascii
 import sys
-
+from key import getkey
 import Adafruit_PN532 as PN532
 
 # Configuration for a Raspberry Pi:
@@ -17,14 +17,15 @@ pn532.begin()
 ic, ver, rev, support = pn532.get_firmware_version()
 print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
 
-
+print("Waiting for card...")
 while True:
     uid = pn532.read_passive_target()
     if uid is not None:
         print('Found card with UID: {0}'.format((binascii.hexlify(uid))))
         block = int(input("Which block to read?"))
+        acekey = getkey()
         if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_A,
-                                                       key):
+                                                       acekey):
             print('Failed to authenticate block {0}!'.format(block))
             continue
         else:
@@ -34,6 +35,7 @@ while True:
                 continue
             else:
                 print(type(data))
+                print(data)
                 test = bytearray(data).decode('utf-8')
                 print('Reading block {0}: {1}'.format(block, test))
     else:
