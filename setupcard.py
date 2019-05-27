@@ -34,7 +34,7 @@ if block not in block_blacklist:
     print("Not a sector trailer!")
 else:
     acekey = getkey()
-    if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_A,
+    if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_B,
                                                acekey):
         print('Error! Failed to authenticate block with the card.')
         sys.exit(-1)
