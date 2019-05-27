@@ -4,13 +4,13 @@ CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
 CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
 def getkey():
-    choice = input("which key? a/b/d(default)")
+    choice = str(input("which key? a/b/d(default)"))
     if choice.lower() == "a":
         return CARD_KEY_A
     elif choice.lower() == "b":
         return CARD_KEY_B
-    elif choice.lower() == "d":
+    else:
         return CARD_KEY
-    return CARD_KEY
+
 
 
