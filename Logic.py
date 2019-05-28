@@ -8,7 +8,7 @@ CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
 CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
 def split_encrypted_into_blocks(seq):
-    if(len(seq) > 44):
+    if len(seq) > 44:
         print("Something went wrong during encryption")
     else:
         return [seq[i:i+16] for i in range(0, len(seq), 16)]
