@@ -1,52 +1,54 @@
 import binascii
-import sys
+from Logic import *
+from Encryption import *
 import Adafruit_PN532 as PN532
-from key import getkey
 
-# PN532 configuration for a Raspberry Pi:
+
+DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+
+temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
+
+block_blacklist = [0, 3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63]
+
 CS = 18
 MOSI = 23
 MISO = 24
 SCLK = 25
 
-# Configure the key to use for writing to the MiFare card.  You probably don't
-# need to change this from the default below unless you know your card has a
-# different key associated with it.
-CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-# Create and initialize an instance of the PN532 class.
-pn532 =  PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
+pn532 = PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
 pn532.begin()
 pn532.SAM_configuration()
 
-block_blacklist = [0, 3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63]
+def writeAce():
+    print("Waiting for card...")
+    uid = None
+    while uid is None:
+        uid = pn532.read_passive_target()
+    duid = binascii.hexlify(uid)
+    print("Card found!! uid: {0}".format(duid))
+    print('==============================================================')
+    print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
+    print('==============================================================')
 
-print("Waiting for card...")
-uid = None
-while uid is None:
-    uid = pn532.read_passive_target()
-print("Found card with UID: {0}".format(binascii.hexlify(uid)))
-print("LENGTH OF UID = {0}".format(len(binascii.hexlify(uid))))
-print('==============================================================')
-print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
-print('==============================================================')
+    cardId = generateUid(duid)
+    encrypted_cardId = AESecryption(temp_key).encrypt(cardId)
+    splitted_cardId_list = split_encrypted_into_blocks(encrypted_cardId)
 
-block = int(input("Which block"))
-if block in block_blacklist:
-    print("Not allowed to write in sector trailers!")
-else:
-    acekey = getkey()
-    if not pn532.mifare_classic_authenticate_block(uid, block, PN532.MIFARE_CMD_AUTH_A,
-                                               acekey):
-        print('Error! Failed to authenticate block with the card.')
-        sys.exit(-1)
+    block_list = [40, 41, 42]
+    print("Starting to write all blocks")
+    for i in range(0, 3):
+        if not pn532.mifare_classic_authenticate_block(uid, i, PN532.MIFARE_CMD_AUTH_A, DEFAULT_CARD_KEY):
+            print("Failed to Authenticate block, writing stopped at block: {0}".format(block_list[i]))
+            sys.exit(-1)
+        else:
+            block = block_list[i]
+            if not pn532.mifare_classic_write_block(block, bytearray(splitted_cardId_list[i], "UTF-8")):
+                print("Error during writing! Failed to write on block {0}", block)
+                print("Cancelling writing")
+                sys.exit(-1)
+    print("Succesfully writting all blocks. You can safely remove the card now!")
 
-    data = 'abcd1234abcd1234'
-    dataArray = bytearray(data, 'utf-8')
-    if not pn532.mifare_classic_write_block(block, dataArray):
-        print('Error! Failed to write to the card.')
-        sys.exit(-1)
-    print("Succesfully wrote to block {0}".format(block))
+writeAce()
 
 
 

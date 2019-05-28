@@ -1,7 +1,7 @@
 import binascii
 import sys
 import Adafruit_PN532 as PN532
-from key import getkey
+
 # PN532 configuration for a Raspberry Pi:
 CS   = 18
 MOSI = 23
