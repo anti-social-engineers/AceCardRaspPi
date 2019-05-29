@@ -31,8 +31,10 @@ def readAce(key, pn532init):
             print('==============================================================')
             print('CARD ID FOUND: {0}'.format(decrypted_cardId))
             print('==============================================================')
+            break
         else:
             continue
+    return
 
 if __name__ == '__main__':
     CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
