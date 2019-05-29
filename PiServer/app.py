@@ -2,7 +2,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from CGIHTTPServer import CGIHTTPRequestHandler
 
-PORT_NUMBER = 8080
+PORT_NUMBER = 1024
 handler = CGIHTTPRequestHandler
 handler.cgi_directories = ['/htbin']
 
