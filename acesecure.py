@@ -29,7 +29,7 @@ print('==============================================================')
 
 def blockcard():
     readAce(DEFAULT_CARD_KEY)
-    choice = input("Are you sure you want to secure sector 10? This means the acces bits will be overwritten and a different key must be used to read the card!!!! (Y/N)?")
+    choice = raw_input("Are you sure you want to secure sector 10? This means the acces bits will be overwritten and a different key must be used to read the card!!!! (Y/N)?")
     if choice.lower() == "y":
         if not pn532.mifare_classic_authenticate_block(uid, sectory_trailer, PN532.MIFARE_CMD_AUTH_A,
                                                        DEFAULT_CARD_KEY):
