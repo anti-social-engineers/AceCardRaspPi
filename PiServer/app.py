@@ -1,18 +1,30 @@
-from __future__ import print_function
-from flask import Flask
-import sys
-sys.path.append('../projects/AceCardRaspPi/PiServer/func')
-from func import aceread
-from func import text
+#!/usr/bin/python
+from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 
+PORT_NUMBER = 8080
 
-app = Flask(__name__)
-@app.route('/')
-def index():
-    return 'Hello world'
+#This class will handles any incoming request from
+#the browser 
+class myHandler(BaseHTTPRequestHandler):
+	
+	#Handler for the GET requests
+	def do_GET(self):
+		self.send_response(200)
+		self.send_header('Content-type','text/html')
+		self.end_headers()
+		# Send the html message
+		self.wfile.write("Hello World !")
+		return
 
-@app.route('/Read')
-def Read():
-   return aceread.Read()
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+try:
+	#Create a web server and define the handler to manage the
+	#incoming request
+	server = HTTPServer(('', PORT_NUMBER), myHandler)
+	print 'Started httpserver on port ' , PORT_NUMBER
+	
+	#Wait forever for incoming htto requests
+	server.serve_forever()
+
+except KeyboardInterrupt:
+	print '^C received, shutting down the web server'
+	server.socket.close()
