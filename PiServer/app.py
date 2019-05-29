@@ -3,7 +3,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer,CGIHTTPRequestHandl
 
 PORT_NUMBER = 8080
 handler = CGIHTTPRequestHandler
-handler.cgi_directories = ['/func']
+handler.cgi_directories = ['/htbin']
 
 #This class will handles any incoming request from
 #the browser 
