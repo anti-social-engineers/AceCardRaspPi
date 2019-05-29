@@ -1,3 +1,4 @@
 #!/usr/bin/env python
 
-print("hoi")
+def hoi():
+    print("hoi")
