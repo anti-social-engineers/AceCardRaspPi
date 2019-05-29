@@ -3,20 +3,26 @@ from Encryption import *
 
 
 
-# duid = "abcd1234"
-# temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
-# cardId = generateUid(duid)
-# print(cardId)
-# encrypted_cardId = AESecryption(temp_key).encrypt(cardId)
-# print(encrypted_cardId)
-# splitted_cardId_list = split_encrypted_into_blocks(encrypted_cardId)
-# print(splitted_cardId_list)
-#
-# block_list = [40, 41, 42]
-# print("Starting to write all blocks")
-# for i in range(0, 3):
-#     block = block_list[i]
-#     print(block, bytearray(splitted_cardId_list[i], "UTF-8  "))
+duid = "abcd1234"
+temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
+cardId = generateUid(duid)
+print(cardId)
+encrypted_cardId = AESecryption(temp_key).encrypt(cardId) + "0000"
+
+
+print(encrypted_cardId)
+splitted_cardId_list = split_encrypted_into_blocks(encrypted_cardId)
+
+print(splitted_cardId_list)
+
+
+block_list = [40, 41, 42]
+print("Starting to write all blocks")
+for i in range(0, 3):
+    block = block_list[i]
+    print(block, bytearray(splitted_cardId_list[i], "UTF-8  "))
+
+
 
 
 
