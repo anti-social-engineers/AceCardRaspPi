@@ -6,7 +6,7 @@ import Adafruit_PN532 as PN532
 
 def writeAce():
 
-    DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+    DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
     CS = 18
     MOSI = 23
@@ -34,6 +34,7 @@ def writeAce():
     block_list = [40, 41, 42]
     print("Starting to write all blocks")
     for i in range(0, 3):
+        print("Writing block {0}".format(block_list[i]))
         if not pn532.mifare_classic_authenticate_block(uid, block_list[i], PN532.MIFARE_CMD_AUTH_A, DEFAULT_CARD_KEY):
             print("Failed to Authenticate block, writing stopped at block: {0}".format(block_list[i]))
             sys.exit(-1)
