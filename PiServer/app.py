@@ -1,5 +1,4 @@
 from flask import Flask, request
-from flask_restful import Resource, Api
 import sys
 
 sys.path.insert(0, '~/projects/AceCardRaspPi/func')
