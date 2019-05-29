@@ -1,5 +1,6 @@
 #!/usr/bin/python
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer,CGIHTTPRequestHandler
+from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+from CGIHTTPServer import CGIHTTPRequestHandler
 
 PORT_NUMBER = 8080
 handler = CGIHTTPRequestHandler
