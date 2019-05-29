@@ -29,7 +29,7 @@ print('==============================================================')
 print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
 print('==============================================================')
 print("Going into read ace")
-#readAce(DEFAULT_CARD_KEY, pn532)
+readAce(DEFAULT_CARD_KEY, pn532)
 choice = raw_input("Are you sure you want to secure sector 10? This means the acces bits will be overwritten and a different key must be used to read the card!!!! (Y/N)?")
 if choice.lower() == "y":
    if not pn532.mifare_classic_authenticate_block(uid, sectory_trailer, PN532.MIFARE_CMD_AUTH_A,
