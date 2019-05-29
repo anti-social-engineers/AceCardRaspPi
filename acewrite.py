@@ -4,22 +4,18 @@ from Encryption import *
 import Adafruit_PN532 as PN532
 
 
-DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
-
-block_blacklist = [0, 3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63]
-
-CS = 18
-MOSI = 23
-MISO = 24
-SCLK = 25
-
-pn532 = PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
-pn532.begin()
-pn532.SAM_configuration()
-
 def writeAce():
+
+    DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+
+    CS = 18
+    MOSI = 23
+    MISO = 24
+    SCLK = 25
+
+    pn532 = PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
+    pn532.begin()
+    pn532.SAM_configuration()
     print("Waiting for card...")
     uid = None
     while uid is None:
@@ -31,6 +27,7 @@ def writeAce():
     print('==============================================================')
 
     cardId = generateUid(duid)
+    temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
     encrypted_cardId = AESecryption(temp_key).encrypt(cardId)
     splitted_cardId_list = split_encrypted_into_blocks(encrypted_cardId)
 

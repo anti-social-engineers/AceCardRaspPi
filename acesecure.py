@@ -3,31 +3,31 @@ import sys
 import Adafruit_PN532 as PN532
 from aceread import readAce
 
-# PN532 configuration for a Raspberry Pi:
-CS   = 18
-MOSI = 23
-MISO = 24
-SCLK = 25
-
-DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-# Create and initialize an instance of the PN532 class.
-pn532 =  PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
-pn532.begin()
-pn532.SAM_configuration()
-
-sectory_trailer = 43
-
-print("Place the card on the writer")
-uid = None
-while uid is None:
-    uid = pn532.read_passive_target()
-print("Found card with UID: {0}".format(binascii.hexlify(uid)))
-print('==============================================================')
-print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
-print('==============================================================')
 
 def blockcard():
+    # PN532 configuration for a Raspberry Pi:
+    CS = 18
+    MOSI = 23
+    MISO = 24
+    SCLK = 25
+
+    DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+
+    # Create and initialize an instance of the PN532 class.
+    pn532 = PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
+    pn532.begin()
+    pn532.SAM_configuration()
+
+    sectory_trailer = 43
+
+    print("Place the card on the writer")
+    uid = None
+    while uid is None:
+        uid = pn532.read_passive_target()
+    print("Found card with UID: {0}".format(binascii.hexlify(uid)))
+    print('==============================================================')
+    print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
+    print('==============================================================')
     readAce(DEFAULT_CARD_KEY)
     choice = raw_input("Are you sure you want to secure sector 10? This means the acces bits will be overwritten and a different key must be used to read the card!!!! (Y/N)?")
     if choice.lower() == "y":

@@ -5,23 +5,21 @@ from Encryption import *
 import Adafruit_PN532 as PN532
 
 
-DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-CARD_KEY_A = [0x6B, 0x3D, 0x73, 0x34, 0x4C, 0x29]
 CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
 
-temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
-# Configuration for a Raspberry Pi:
-CS   = 18
-MOSI = 23
-MISO = 24
-SCLK = 25
-
-# Create an instance of the PN532 class.
-pn532 = PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
-pn532.begin()
-
 def readAce(key):
+
+    temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
+    # Configuration for a Raspberry Pi:
+    CS = 18
+    MOSI = 23
+    MISO = 24
+    SCLK = 25
+
+    # Create an instance of the PN532 class.
+    pn532 = PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
+    pn532.begin()
+
     print("Place the card on the Scanner")
     while True:
         uid = pn532.read_passive_target()
