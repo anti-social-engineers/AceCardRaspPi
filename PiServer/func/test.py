@@ -1,4 +1,4 @@
 #!/usr/bin/env python
 
 def hoi():
-    print("hoi")
+    return("hoi")
