@@ -28,7 +28,7 @@ def writeAce():
 
     cardId = generateUid(duid)
     temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
-    encrypted_cardId = AESecryption(temp_key).encrypt(cardId)
+    encrypted_cardId = AESecryption(temp_key).encrypt(cardId) + "0000"
     splitted_cardId_list = split_encrypted_into_blocks(encrypted_cardId)
 
     block_list = [40, 41, 42]
