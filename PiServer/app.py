@@ -1,34 +1,10 @@
-#!/usr/bin/python
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
-from CGIHTTPServer import CGIHTTPRequestHandler
+from flask import Flask
 
-PORT_NUMBER = 1024
-handler = CGIHTTPRequestHandler
-handler.cgi_directories = ['/htbin']
+app = Flask(__name__)
 
-#This class will handles any incoming request from
-#the browser 
-class myHandler(BaseHTTPRequestHandler):
-	
-	#Handler for the GET requests
-	def do_GET(self):
-		self.send_response(200)
-		self.send_header('Content-type','text/html')
-		self.end_headers()
-		# Send the html message
-		self.wfile.write("Hello World !")
+@app.route('/')
+def index():
+    return 'Hello world'
 
-		return
-
-try:
-	#Create a web server and define the handler to manage the
-	#incoming request
-	server = HTTPServer(('', PORT_NUMBER), handler)
-	print 'Started httpserver on port ' , PORT_NUMBER
-	
-	#Wait forever for incoming htto requests
-	server.serve_forever()
-
-except KeyboardInterrupt:
-	print '^C received, shutting down the web server'
-	server.socket.close()
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
