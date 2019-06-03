@@ -1,6 +1,10 @@
 import binascii
 import sys
-import Adafruit_PN532 as PN532
+from adafruit_pn532.adafruit_pn532 import *
+from digitalio import DigitalInOut
+from adafruit_pn532.spi import PN532_SPI
+import board
+import busio
 from aceread import readAce
 
 
@@ -13,9 +17,11 @@ MISO = 24
 SCLK = 25
 
 DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-# Create and initialize an instance of the PN532 class.
-pn532 = PN532.PN532(cs=CS, sclk=SCLK, mosi=MOSI, miso=MISO)
-pn532.begin()
+
+# Configuration for a Raspberry Pi:
+spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
+cs_pin = DigitalInOut(board.D5)
+pn532 = PN532_SPI(spi, cs_pin, debug=False)
 pn532.SAM_configuration()
 
 sectory_trailer = 43
@@ -30,9 +36,9 @@ print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
 print('==============================================================')
 print("Going into read ace")
 readAce(DEFAULT_CARD_KEY, pn532)
-choice = raw_input("Are you sure you want to secure sector 10? This means the acces bits will be overwritten and a different key must be used to read the card!!!! (Y/N)?")
+choice = input("Are you sure you want to secure sector 10? This means the acces bits will be overwritten and a different key must be used to read the card!!!! (Y/N)?")
 if choice.lower() == "y":
-   if not pn532.mifare_classic_authenticate_block(uid, sectory_trailer, PN532.MIFARE_CMD_AUTH_A,
+   if not pn532.mifare_classic_authenticate_block(uid, sectory_trailer, MIFARE_CMD_AUTH_A,
                                                        DEFAULT_CARD_KEY):
       print('Error! Failed to authenticate sector trailer. Try again')
       sys.exit(-1)
