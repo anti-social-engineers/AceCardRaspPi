@@ -21,10 +21,11 @@ def writeAce():
     uid = None
     while uid is None:
         uid = pn532.read_passive_target()
-    duid = bytearray(uid).decode("UTF-8")
-    print("Card found!! uid: {0}".format(duid))
+    # duid = bytearray(uid).decode("UTF-8")
+    # print("Card found!! uid: {0}".format(duid))
     test = binascii.hexlify(uid).decode()
     print("Card found!! uid: {0}".format(test))
+    print('Found card with UID:', [hex(i) for i in uid])
 
     # print('==============================================================')
     # print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
