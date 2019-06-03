@@ -1,20 +1,33 @@
-from flask import Flask, request
+import socket
 import sys
 
-sys.path.insert(0, '~/projects/AceCardRaspPi/func')
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_adress = ('localhost', 10000)
+print(sys.stderr, 'starting up on %s port %s' % server_adress)
+sock.bind(server_adress)
 
-import test
+# Listen for incoming connections
+sock.listen(1)
 
+while True:
+    # Wait for a connection
+    print(sys.stderr, 'waiting for a connection')
+    connection, client_address = sock.accept()
 
-app = Flask(__name__)
+try:
+        print(sys.stderr, 'connection from', client_address)
 
-@app.route('/')
-def index():
-    return 'Hello world'
-
-@app.route('/aceread')
-def Read():
-   return test.hoi()
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+        # Receive the data in small chunks and retransmit it
+        while True:
+            data = connection.recv(16)
+            print(sys.stderr, 'received "%s"' % data)
+            if data:
+                print(sys.stderr, 'sending data back to the client')
+                connection.sendall(data)
+            else:
+                print(sys.stderr, 'no more data from', client_address)
+                break
+            
+finally:
+  # Clean up the connection
+   connection.close()
