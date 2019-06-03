@@ -30,7 +30,7 @@ print("Place the card on the writer to start ")
 uid = None
 while uid is None:
     uid = pn532.read_passive_target()
-print("Found card with UID: {0}".format(binascii.hexlify(uid)))
+print("Found card with UID: {0}".format(binascii.hexlify(uid).decode()))
 print('==============================================================')
 print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
 print('==============================================================')

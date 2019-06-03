@@ -1,4 +1,5 @@
 import board
+import binascii
 import busio
 from digitalio import DigitalInOut
 from Logic import *
@@ -13,7 +14,7 @@ def readAce(key, pn532init):
     while True:
         uid = pn532init.read_passive_target()
         if uid is not None:
-            print('Found card with UID: {0}'.format(bytearray(uid).decode("UTF-8")))
+            print('Found card with UID: {0}'.format(binascii.hexlify(uid).decode()))
             encrypted_cardId = ""
             block_list = [40, 41, 42]
             for i in range(0, 3):
