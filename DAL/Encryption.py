@@ -1,11 +1,16 @@
 from Crypto.Cipher import AES
+from DAL.ApiController import openConfig
 import os
 import base64
 
 class AESecryption:
 
-    def __init__(self, key):
-        self.key = key.encode("UTF-8")
+    def __init__(self):
+        self.key = self.getKey()
+
+    def getKey(self):
+        data = openConfig()
+        return data['encryptionkey'].encode("UTF-9")
 
     def encrypt(self, cardId):
         cardId_byte_array = cardId.encode("UTF-8")
@@ -25,5 +30,7 @@ class AESecryption:
 
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         return cipher.decrypt(messagebytes).decode("UTF-8")
+
+
 
 

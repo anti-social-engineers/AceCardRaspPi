@@ -1,20 +1,17 @@
 import board
-import binascii
 import busio
 from digitalio import DigitalInOut
 from Logic import *
-from Encryption import *
+from DAL.Encryption import *
 from adafruit_pn532.adafruit_pn532 import *
 from adafruit_pn532.spi import PN532_SPI
 
 def readAce(key, pn532init):
-    temp_key = "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
-
     print("Place the card on the Scanner")
     while True:
         uid = pn532init.read_passive_target()
         if uid is not None:
-            print('Found card with UID: {0}'.format(binascii.hexlify(uid).decode()))
+            print('Found card with UID: {0}'.format(get_decoded_string(uid)))
             encrypted_cardId = ""
             block_list = [40, 41, 42]
             for i in range(0, 3):
@@ -29,7 +26,7 @@ def readAce(key, pn532init):
                         print("No data to be found on block {0}".format(block_list[i]))
             print("All blocks are read, decrypting now....")
             encrypted_cardId = encrypted_cardId[0:45]
-            decrypted_cardId = AESecryption(temp_key).decrypt(encrypted_cardId)
+            decrypted_cardId = AESecryption().decrypt(encrypted_cardId)
             print('==============================================================')
             print('CARD ID FOUND: {0}'.format(decrypted_cardId))
             print('==============================================================')
