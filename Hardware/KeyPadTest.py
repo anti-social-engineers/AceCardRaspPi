@@ -4,7 +4,7 @@ import board
 from Hardware import adafruit_matrixkeypad
 
 cols = [DigitalInOut(x) for x in (board.D26, board.D20, board.D21)]
-rows = [DigitalInOut(x) for x in (board.D5, board.D6, board.D13, board.D19)]
+rows = [DigitalInOut(x) for x in (board.D16, board.D5, board.D13, board.D19)]
 
 keys = [(1, 2, 3),
         (4, 5, 6),
