@@ -23,6 +23,7 @@ disp.display()
 # Make sure to create image with mode '1' for 1-bit color.
 width = disp.width
 height = disp.height
+print(width, height)
 image = Image.new('1', (width, height))
 
 
@@ -39,7 +40,7 @@ disp.image(image)
 disp.display()
 
 
-
+x = [128, 64]
 keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
 
 while True:
@@ -47,8 +48,10 @@ while True:
     keys = keypad.pressed_keys
     if keys:
         draw.text((i + 10, 2), str(keys[0]), font=font, fill=255)
-        print("Pressed: ", keys)
-        i += 10
+        print("Pressed: ", keys[0])
         disp.image(image)
         disp.display()
+    i += 10
+    print(i)
     time.sleep(0.1)
+    
