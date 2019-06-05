@@ -3,8 +3,8 @@ import time
 import board
 from Hardware import adafruit_matrixkeypad
 
-cols = [DigitalInOut(x) for x in (board.D9, board.D6, board.D5)]
-rows = [DigitalInOut(x) for x in (board.D13, board.D12, board.D11, board.D10)]
+cols = [DigitalInOut(x) for x in (board.D26, board.D20, board.D21)]
+rows = [DigitalInOut(x) for x in (board.D5, board.D6, board.D13, board.D19)]
 
 keys = [(1, 2, 3),
         (4, 5, 6),
