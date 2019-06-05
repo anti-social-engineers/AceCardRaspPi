@@ -46,8 +46,9 @@ while True:
     i = 2
     keys = keypad.pressed_keys
     if keys:
-        draw.text((2, i + 5), keys, font=font, fill=255)
+        draw.text((i + 5, 2), str(keys[0]), font=font, fill=255)
         print("Pressed: ", keys)
+        i += 5
         disp.image(image)
         disp.display()
     time.sleep(0.1)
