@@ -51,6 +51,6 @@ while True:
         print("Pressed: ", keys[0])
         disp.image(image)
         disp.display()
-    i += 10
+        i += 10
     print(i)
     time.sleep(0.1)
