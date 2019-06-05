@@ -43,8 +43,8 @@ disp.display()
 x = [128, 64]
 keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
 
+i = 2
 while True:
-    i = 2
     keys = keypad.pressed_keys
     if keys:
         draw.text((i + 10, 2), str(keys[0]), font=font, fill=255)
@@ -54,4 +54,3 @@ while True:
     i += 10
     print(i)
     time.sleep(0.1)
-    
