@@ -33,7 +33,7 @@ draw = ImageDraw.Draw(image)
 # Load default font.
 font = ImageFont.load_default()
 
-draw.text((2, 2), 'Hello World!', font=font, fill=255)
+#draw.text((2, 2), 'Hello World!', font=font, fill=255)
 
 disp.image(image)
 disp.display()
@@ -46,9 +46,9 @@ while True:
     i = 2
     keys = keypad.pressed_keys
     if keys:
-        draw.text((i + 5, 2), str(keys[0]), font=font, fill=255)
+        draw.text((i + 10, 2), str(keys[0]), font=font, fill=255)
         print("Pressed: ", keys)
-        i += 5
+        i += 10
         disp.image(image)
         disp.display()
     time.sleep(0.1)
