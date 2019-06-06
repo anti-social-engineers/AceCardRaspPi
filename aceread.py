@@ -45,7 +45,7 @@ if __name__ == '__main__':
     i2c = busio.I2C(board.SCL, board.SDA)
     reset_pin = DigitalInOut(board.D6)
     req_pin = DigitalInOut(board.D12)
-    pn532 = PN532_I2C(i2c, cs_pin, debug=False, reset= reset_pin, req=req_pin)
+    pn532 = PN532_I2C(i2c, debug=False, reset= reset_pin, req=req_pin)
     pn532.SAM_configuration()
 
     readAce(CARD_KEY_B, pn532)
