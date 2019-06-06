@@ -1,42 +1,63 @@
 from Configure import *
 from PIL import ImageDraw, Image, ImageFont
-import time
+from BLL.Display import Display
+from PL.Windows import *
+from DAL.NfcController.Read import ReadCard
 
 
 
-def main():
+class Main:
 
-    pn532 = getPN532().inititalize()
-    keypad = getMatrixKeyPad().initalize()
-    display = getSSD106().inititalize()
+    def Start(self):
 
-    display.begin()
-    display.clear()
-    display.display()
-    image = Image.new('1', (display.width, display.height))
-    # Make sure to create image with mode
-    draw = ImageDraw.Draw(image)
+        pn532 = PN532().initialize()
+        keypad = MatrixKeyPad().initialize()
+        lcd = SSD106().initialize()
 
-    # Load default font.
-    font = ImageFont.load_default()
+        lcd.begin()
+        lcd.clear()
+        lcd.display()
+        image = Image.new('1', (lcd.width, lcd.height))
+        draw = ImageDraw.Draw(image)
+        font = ImageFont.load_default()
 
-    draw.text((10, 10), "Choose a mode to use ", font=font, fill=255)
-    draw.text((10, 25), "--------------------------------", font=font, fill=255)
-    draw.text((10, 40), "1 | PIN Mode", font=font, fill=255)
-    draw.text((10, 55), "2 | Write and Secure Mode", font=font, fill=255)
+        #Creating instance so i can pass this to all windows
+        display = Display(lcd, draw, image, font)
+        #draw.text((10, 10), "Choose a mode to use ", font=font, fill=255)
 
-    display.image(image)
-    display.display()
+        lcd.image(image)
+        lcd.display()
 
-    while True:
-        pkey = keypad.pressed_keys[0]
-        if pkey:
-            if pkey[0] == "1":
-                draw.text((10, 40), "1 | PIN Mode", font=font, fill=255)
-            elif pkey[0] == "2":
+        self.ToMain(display)
+        self.mainLoop(display, keypad, pn532)
 
-            else:
-                continue
+    def ToMain(self, display):
+        mode = ModeWindow(display)
+        mode.show()
+
+
+    def mainLoop(self, display, keypad, pn532):
+
+        while True:
+            pkey = keypad.pressed_keys[0]
+            if pkey == "1":
+                amountWindow = AmountWindow(display)
+                amountWindow.show()
+                amount = amountWindow.getAmount(keypad)
+                if amount is not None:
+                    pinWindow = PinWindow(display, amount)
+                    pinWindow.show()
+                    cardId = ReadCard("1234", pn532)
+                    if cardId:
+                        pin = pinWindow.getPin(keypad)
+                        if pin is not None:
+                            resultWindow = ResultWindow(display, amount, pin)
+                            resultWindow.show()
+                        else:
+                            self.ToMain(display)
+                else:
+                    self.ToMain(display)
+
 
 
 
@@ -44,4 +65,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    Main().Start()

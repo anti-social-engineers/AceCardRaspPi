@@ -1,13 +1,12 @@
 import busio
 import board
 from digitalio import DigitalInOut
-from adafruit_pn532.i2c import PN532_I2C
-import Adafruit_SSD1306
-from Adafruit_matrixkeypad import adafruit_matrixkeypad
-from PIL import ImageDraw, Image, ImageFont
+from Libraries.Adafruit_pn532 import PN532_I2C
+from Libraries import Adafruit_SSD1306
+from Libraries.Adafruit_matrixkeypad import adafruit_matrixkeypad
 import Adafruit_GPIO.SPI as SPI
 
-class getPN532:
+class PN532:
 
     def __init__(self):
         self.i2c = busio.I2C(board.SCL, board.SDA)
@@ -18,13 +17,13 @@ class getPN532:
         # wakeup! this means we don't need to do the I2C clock-stretch thing
         self.req_pin = DigitalInOut(board.D12)
 
-    def inititalize(self):
+    def initialize(self):
         pn532 = PN532_I2C(self.i2c, debug=False, reset=self.reset_pin, req=self.req_pin)
         pn532.SAM_configuration()
         return pn532
 
 
-class getSSD106:
+class SSD106:
 
     def __init__(self):
         # Raspberry Pi pin configuration:
@@ -34,10 +33,10 @@ class getSSD106:
         self.SPI_PORT = 0
         self.SPI_DEVICE = 0
 
-    def inititalize(self):
+    def initialize(self):
         return Adafruit_SSD1306.SSD1306_128_64(rst=self.RST, dc=self.DC, spi=SPI.SpiDev(self.SPI_PORT, self.SPI_DEVICE, max_speed_hz=8000000))
 
-class getMatrixKeyPad:
+class MatrixKeyPad:
 
     def __init__(self):
         self.cols = [DigitalInOut(x) for x in (board.D26, board.D20, board.D21)]
@@ -47,5 +46,5 @@ class getMatrixKeyPad:
                      (7, 8, 9),
                    ('*', 0, '#')]
 
-    def initalize(self):
+    def initialize(self):
         return adafruit_matrixkeypad.Matrix_Keypad(self.rows, self.cols, self.keys)

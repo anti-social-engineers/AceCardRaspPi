@@ -1,21 +1,13 @@
-import board
-import busio
-from digitalio import DigitalInOut
-from Logic import *
+from BLL.Logic import *
 from DAL.Encryption import *
-from adafruit_pn532.adafruit_pn532 import *
-from adafruit_pn532.spi import PN532_SPI
+from Libraries.Adafruit_pn532.adafruit_pn532 import MIFARE_CMD_AUTH_A
 
 
-def writeAce():
+
+def WriteCard(pn532):
 
     DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
-    # SPI connection:
-    spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
-    cs_pin = DigitalInOut(board.D5)
-    pn532 = PN532_SPI(spi, cs_pin, debug=False)
-    pn532.SAM_configuration()
     print("Waiting for card...")
     uid = None
     while uid is None:
@@ -52,7 +44,6 @@ def encrypt_and_split(cardId):
 
 
 
-writeAce()
 
 
 

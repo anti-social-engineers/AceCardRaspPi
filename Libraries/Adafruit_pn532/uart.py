@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-``adafruit_pn532.uart``
+``Adafruit_pn532.uart``
 ====================================================
 
 This module will let you communicate with a PN532 RFID/NFC shield or breakout
@@ -39,7 +39,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_PN532.git"
 
 
 import time
-from adafruit_pn532.adafruit_pn532 import PN532, BusyError
+from Libraries.Adafruit_pn532 import PN532, BusyError
 
 class PN532_UART(PN532):
     """Driver for the PN532 connected over Serial UART"""

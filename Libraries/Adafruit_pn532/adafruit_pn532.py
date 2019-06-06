@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 """
-``adafruit_pn532``
+``Adafruit_pn532``
 ====================================================
 
 This module will let you communicate with a PN532 RFID/NFC shield or breakout

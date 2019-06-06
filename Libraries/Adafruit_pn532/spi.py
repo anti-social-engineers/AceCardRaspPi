@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-``adafruit_pn532.spi``
+``Adafruit_pn532.spi``
 ====================================================
 
 This module will let you communicate with a PN532 RFID/NFC shield or breakout
@@ -40,7 +40,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_PN532.git"
 import time
 import adafruit_bus_device.spi_device as spi_device
 from micropython import const
-from adafruit_pn532.adafruit_pn532 import PN532
+from Libraries.Adafruit_pn532 import PN532
 
 # pylint: disable=bad-whitespace
 _SPI_STATREAD                  = const(0x02)

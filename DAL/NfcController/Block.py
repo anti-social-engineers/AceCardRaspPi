@@ -1,13 +1,12 @@
-from adafruit_pn532.adafruit_pn532 import *
 from digitalio import DigitalInOut
-from Logic import *
-from adafruit_pn532.spi import PN532_SPI
+from BLL.Logic import *
+from Libraries.Adafruit_pn532 import PN532_SPI
 import board
 import busio
-from aceread import readAce
+from DAL.NfcController.Read import ReadCard
 
 
-def block(pn532):
+def SecureCard(pn532):
 
     sectory_trailer = 43
     print("Place the card on the writer to start ")
@@ -18,7 +17,7 @@ def block(pn532):
     print('==============================================================')
     print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
     print('==============================================================')
-    readAce(DEFAULT_CARD_KEY, pn532)
+    ReadCard(DEFAULT_CARD_KEY, pn532)
     choice = input("Are you sure you want to secure sector 10? This means the acces bits will be overwritten and a different key must be used to read the card!!!! (Y/N)?")
     if choice.lower() == "y":
         if not pn532.mifare_classic_authenticate_block(uid, sectory_trailer, MIFARE_CMD_AUTH_A,
@@ -50,5 +49,5 @@ if __name__ == '__main__':
     cs_pin = DigitalInOut(board.D5)
     pn532init = PN532_SPI(spi, cs_pin, debug=False)
     pn532init.SAM_configuration()
-    block(pn532init)
+    SecureCard(pn532init)
 

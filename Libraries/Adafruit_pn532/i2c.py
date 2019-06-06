@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-``adafruit_pn532.i2c``
+``Adafruit_pn532.i2c``
 ====================================================
 
 This module will let you communicate with a PN532 RFID/NFC shield or breakout
@@ -41,7 +41,7 @@ import time
 import adafruit_bus_device.i2c_device as i2c_device
 from digitalio import Direction
 from micropython import const
-from adafruit_pn532.adafruit_pn532 import PN532, BusyError, _reset
+from Libraries.Adafruit_pn532 import PN532, BusyError, _reset
 
 # pylint: disable=bad-whitespace
 _I2C_ADDRESS                   = const(0x24)
