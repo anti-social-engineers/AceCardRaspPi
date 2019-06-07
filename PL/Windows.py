@@ -1,5 +1,6 @@
 from DAL.ApiController import getPINResponse
 from PIL import ImageDraw, Image, ImageFont
+import time
 class ModeWindow:
 
     def __init__(self, disp):
@@ -36,17 +37,19 @@ class AmountWindow:
         self.disp.display()
 
     def getAmount(self, keypad):
+        self.disp.clear()
+        self.disp.display()
         amount = ''
         numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         while True:
             pkey = keypad.pressed_keys
             if pkey:
                 print("key pressed " , pkey)
-                if pkey == ["#"]:
+                if pkey[0] == "#":
                     break
-                elif pkey[0] == ["C"]:
+                elif pkey[0] == "C":
                     return None
-                elif pkey[0] == ["*"]:
+                elif pkey[0] == "*":
                     amount = amount[:-1]
                     self.disp.clear()
                     self.disp.display()
@@ -54,7 +57,8 @@ class AmountWindow:
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
-                elif pkey[0] in numbers:
+                    time.sleep(0.5)
+                elif int(pkey[0]) in numbers:
                     amount += str(pkey[0])
                     self.disp.clear()
                     self.disp.display()
@@ -62,6 +66,7 @@ class AmountWindow:
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
+                    time.sleep(0.5)
                 else:
                     continue
             else:
