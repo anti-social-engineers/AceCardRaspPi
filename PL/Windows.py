@@ -31,11 +31,11 @@ class AmountWindow:
         while True:
             pkey = keypad.pressed_keys
             if pkey:
-                if pkey[0] == "#":
+                if pkey == ["#"]:
                     break
-                elif pkey[0] == "C":
+                elif pkey[0] == ["C"]:
                     return None
-                elif pkey[0] == "*":
+                elif pkey[0] == ["*"]:
                     amount = amount[:-1]
                     self.display.lcd.clear()
                     self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
@@ -77,12 +77,12 @@ class PinWindow:
         output = ''
         numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         while True:
-            pkey = keypad.pressed_keys[0]
-            if pkey == "#"  and len(output) == 4:
+            pkey = keypad.pressed_keys
+            if pkey == ["#"]  and len(output) == 4:
                 break
             elif pkey == "C":
                 return None
-            elif pkey == "*":
+            elif pkey == ["*"]:
                 pin = pin[:-1]
                 output = output[:-1]
                 self.display.lcd.clear()

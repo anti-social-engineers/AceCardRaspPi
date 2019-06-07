@@ -39,7 +39,7 @@ class Main:
             pkey = keypad.pressed_keys
             if pkey:
                 print("key pressed",  pkey)
-                if pkey[0] == "1":
+                if pkey[0] == [1]:
                     amountWindow = AmountWindow(display)
                     amountWindow.show()
                     amount = amountWindow.getAmount(keypad)
