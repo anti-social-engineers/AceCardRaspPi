@@ -29,25 +29,28 @@ class AmountWindow:
         amount = ''
         numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         while True:
-            pkey = keypad.pressed_keys[0]
-            if pkey == "#":
-                break
-            elif pkey == "C":
-                return None
-            elif pkey == "*":
-                amount = amount[:-1]
-                self.display.lcd.clear()
-                self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
-                self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
-                self.display.lcd.image(self.display.image)
-                self.display.lcd.display()
-            elif int(pkey) in numbers:
-                amount += pkey
-                self.display.lcd.clear()
-                self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
-                self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
-                self.display.lcd.image(self.display.image)
-                self.display.lcd.display()
+            pkey = keypad.pressed_keys
+            if pkey:                           
+                if pkey[0] == "#":
+                    break
+                elif pkey[0] == "C":
+                    return None
+                elif pkey[0] == "*":
+                    amount = amount[:-1]
+                    self.display.lcd.clear()
+                    self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
+                    self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
+                    self.display.lcd.image(self.display.image)
+                    self.display.lcd.display()
+                elif int(pkey) in numbers:
+                    amount += pkey
+                    self.display.lcd.clear()
+                    self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
+                    self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
+                    self.display.lcd.image(self.display.image)
+                    self.display.lcd.display()
+                else:
+                    continue
             else:
                 continue
         return float(amount)

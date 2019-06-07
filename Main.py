@@ -36,28 +36,31 @@ class Main:
     def mainLoop(self, display, keypad, pn532):
 
         while True:
-            pkey = keypad.pressed_keys[0]
-            if pkey == "1":
-                amountWindow = AmountWindow(display)
-                amountWindow.show()
-                amount = amountWindow.getAmount(keypad)
-                print(amount)
-                if amount is not None:
-                    pinWindow = PinWindow(display, amount)
-                    pinWindow.show()
-                    #CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
-                    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-                    cardId = ReadCard(key, pn532)
-                    if cardId:
-                        pin = pinWindow.getPin(keypad)
-                        if pin is not None:
-                            sys.exit(-1)
-                            # resultWindow = ResultWindow(display, amount, pin)
-                            # resultWindow.show()
-                        else:
-                            self.ToMain(display)
-                else:
-                    self.ToMain(display)
+            pkey = keypad.pressed_keys
+            if pkey:
+                if pkey[0] == "1":
+                    amountWindow = AmountWindow(display)
+                    amountWindow.show()
+                    amount = amountWindow.getAmount(keypad)
+                    print(amount)
+                    if amount is not None:
+                        pinWindow = PinWindow(display, amount)
+                        pinWindow.show()
+                        #CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
+                        key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                        cardId = ReadCard(key, pn532)
+                        if cardId:
+                            pin = pinWindow.getPin(keypad)
+                            if pin is not None:
+                                sys.exit(-1)
+                                # resultWindow = ResultWindow(display, amount, pin)
+                                # resultWindow.show()
+                            else:
+                                self.ToMain(display)
+                    else:
+                        self.ToMain(display)
+            else:
+                continue
 
 
 
