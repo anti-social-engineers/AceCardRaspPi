@@ -5,8 +5,8 @@ class ModeWindow:
         self.display = display
 
     def show(self):
-
         self.display.lcd.clear()
+        self.display.lcd.display()
         self.display.draw.text((10, 10), 'Choose a mode', font=self.display.font, fill=255)
         self.display.draw.text((10, 30), '1 | PIN mode', font=self.display.font, fill=255)
         self.display.draw.text((10, 50), '2 | Write mode', font=self.display.font, fill=255)
@@ -19,6 +19,8 @@ class AmountWindow:
         self.display = display
 
     def show(self):
+        self.display.lcd.clear()
+        self.display.lcd.display()
         self.display.draw.text((10, 10), 'Enter amount', font=self.display.font, fill=255)
         self.display.draw.text((10, 30), "0.00", font=self.display.font, fill=255)
         self.display.lcd.image(self.display.image)
@@ -38,7 +40,6 @@ class AmountWindow:
                 elif pkey[0] == ["*"]:
                     amount = amount[:-1]
                     self.display.lcd.clear()
-                    self.display.lcd.image(self.display.image)
                     self.display.lcd.display()
                     self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
                     self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
@@ -47,7 +48,6 @@ class AmountWindow:
                 elif pkey[0] in numbers:
                     amount += str(pkey[0])
                     self.display.lcd.clear()
-                    self.display.lcd.image(self.display.image)
                     self.display.lcd.display()
                     self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
                     self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
