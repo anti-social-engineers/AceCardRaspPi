@@ -38,6 +38,7 @@ class Main:
         while True:
             pkey = keypad.pressed_keys
             if pkey:
+                print("key pressed" + pkey)
                 if pkey[0] == "1":
                     amountWindow = AmountWindow(display)
                     amountWindow.show()
