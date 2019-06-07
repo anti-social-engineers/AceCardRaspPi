@@ -1,7 +1,7 @@
 from digitalio import DigitalInOut
 import time
 import board
-from Hardware import adafruit_matrixkeypad
+import adafruit_matrixkeypad
 
 cols = [DigitalInOut(x) for x in (board.D26, board.D20, board.D21)]
 rows = [DigitalInOut(x) for x in (board.D16, board.D5, board.D13, board.D19)]
@@ -13,8 +13,19 @@ keys = [(1, 2, 3),
 
 keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
 
-while True:
-    keys = keypad.pressed_keys
-    if keys:
-        print("Pressed: ", keys)
-    time.sleep(0.1)
+
+def lel():
+    while True:
+        pressedKey()
+
+def pressedKey():
+    while True:
+        keys = keypad.pressed_keys
+        if keys:
+            return keys[0]
+
+
+if __name__ == '__main__':
+    print(lel())
+
+
