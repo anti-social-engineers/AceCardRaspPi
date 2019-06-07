@@ -48,20 +48,20 @@ class AmountWindow:
                     return None
                 elif pkey[0] == ["*"]:
                     amount = amount[:-1]
-                    self.display.lcd.clear()
-                    self.display.lcd.display()
-                    self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
-                    self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
-                    self.display.lcd.image(self.display.image)
-                    self.display.lcd.display()
+                    self.disp.clear()
+                    self.disp.display()
+                    self.draw.text((50, 10), 'Enter amount', font=self.font, fill=255)
+                    self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
+                    self.disp.image(self.image)
+                    self.disp.display()
                 elif pkey[0] in numbers:
                     amount += str(pkey[0])
-                    self.display.lcd.clear()
-                    self.display.lcd.display()
-                    self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
-                    self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
-                    self.display.lcd.image(self.display.image)
-                    self.display.lcd.display()
+                    self.disp.clear()
+                    self.disp.display()
+                    self.draw.text((50, 10), 'Enter amount', font=self.font, fill=255)
+                    self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
+                    self.disp.image(self.image)
+                    self.disp.display()
                 else:
                     continue
             else:
