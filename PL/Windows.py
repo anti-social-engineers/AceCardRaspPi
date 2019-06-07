@@ -32,7 +32,6 @@ class AmountWindow:
         self.disp.clear()
         self.disp.display()
         self.draw.text((50, 10), 'Enter amount', font=self.font, fill=255)
-        self.draw.text((50, 30), "0.00", font=self.font, fill=255)
         self.disp.image(self.image)
         self.disp.display()
 
@@ -54,20 +53,18 @@ class AmountWindow:
                     amount = amount[:-1]
                     self.disp.clear()
                     self.disp.display()
-                    self.draw.text((50, 10), 'Enter amount', font=self.font, fill=255)
+                    self.draw.text((10, 10), 'Enter amount', font=self.font, fill=255)
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
-                    time.sleep(1)
                 elif int(pkey[0]) in numbers:
                     amount += str(pkey[0])
                     self.disp.clear()
                     self.disp.display()
-                    self.draw.text((50, 10), 'Enter amount', font=self.font, fill=255)
+                    self.draw.text((10, 10), 'Enter amount', font=self.font, fill=255)
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
-                    time.sleep(1)
                 else:
                     continue
             else:
