@@ -42,8 +42,6 @@ class Main:
                 print("key pressed", pkey)
                 if pkey == [1]:
                     print("enter mode 1")
-                    display.lcd.clear()
-                    display.lcd.display()
                     amountWindow = AmountWindow(display)
                     amountWindow.show()
                     amount = amountWindow.getAmount(keypad)
