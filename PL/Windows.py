@@ -45,6 +45,7 @@ class AmountWindow:
             pkey = keypad.pressed_keys
             if pkey:
                 print("key pressed " , pkey)
+                time.sleep(1)
                 if pkey[0] == "#":
                     break
                 elif pkey[0] == "C":
@@ -57,7 +58,7 @@ class AmountWindow:
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
-                    time.sleep(0.5)
+                    time.sleep(1)
                 elif int(pkey[0]) in numbers:
                     amount += str(pkey[0])
                     self.disp.clear()
@@ -66,7 +67,7 @@ class AmountWindow:
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
-                    time.sleep(0.5)
+                    time.sleep(1)
                 else:
                     continue
             else:
