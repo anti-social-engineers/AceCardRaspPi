@@ -31,7 +31,7 @@ class AmountWindow:
     def show(self):
         self.disp.clear()
         self.disp.display()
-        self.draw.text((50, 10), 'Enter amount', font=self.font, fill=255)
+        self.draw.text((10, 10), 'Enter amount', font=self.font, fill=255)
         self.disp.image(self.image)
         self.disp.display()
 
@@ -53,7 +53,8 @@ class AmountWindow:
                     amount = amount[:-1]
                     self.disp.clear()
                     self.disp.display()
-                    self.draw.text((10, 10), 'Enter amount', font=self.font, fill=255)
+                    self.image = Image.new('1', (self.disp.width, self.disp.height))
+                    self.draw = ImageDraw.Draw(self.image)
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
@@ -61,7 +62,8 @@ class AmountWindow:
                     amount += str(pkey[0])
                     self.disp.clear()
                     self.disp.display()
-                    self.draw.text((10, 10), 'Enter amount', font=self.font, fill=255)
+                    self.image = Image.new('1', (self.disp.width, self.disp.height))
+                    self.draw = ImageDraw.Draw(self.image)
                     self.draw.text((50, 30), str(int(amount) / float(100)), font=self.font, fill=255)
                     self.disp.image(self.image)
                     self.disp.display()
