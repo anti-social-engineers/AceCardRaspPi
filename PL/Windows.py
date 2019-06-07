@@ -1,30 +1,39 @@
 from DAL.ApiController import getPINResponse
+from PIL import ImageDraw, Image, ImageFont
 class ModeWindow:
 
-    def __init__(self, display):
-        self.display = display
+    def __init__(self, disp):
+        self.name = "ModeWindow"
+        self.disp = disp
+        self.image = Image.new('1', (self.disp.width, self.disp.height))
+        self.draw = ImageDraw.Draw(self.image)
+        self.font = ImageFont.load_default()
+        self.disp.image(self.image)
 
     def show(self):
-        self.display.lcd.clear()
-        self.display.lcd.display()
-        self.display.draw.text((10, 10), 'Choose a mode', font=self.display.font, fill=255)
-        self.display.draw.text((10, 30), '1 | PIN mode', font=self.display.font, fill=255)
-        self.display.draw.text((10, 50), '2 | Write mode', font=self.display.font, fill=255)
-        self.display.lcd.image(self.display.image)
-        self.display.lcd.display()
+        self.disp.clear()
+        self.draw.text((10, 10), 'Choose a mode', font=self.font, fill=255)
+        self.draw.text((10, 30), '1 | PIN mode', font=self.font, fill=255)
+        self.draw.text((10, 50), '2 | Write mode', font=self.font, fill=255)
+        self.disp.image(self.image)
+        self.disp.display()
 
 class AmountWindow:
 
     def __init__(self, display):
-        self.display = display
+        self.disp = display
+        self.image = Image.new('1', (self.disp.width, self.disp.height))
+        self.draw = ImageDraw.Draw(self.image)
+        self.font = ImageFont.load_default()
+        self.disp.image(self.image)
 
     def show(self):
-        self.display.lcd.clear()
-        self.display.lcd.display()
-        self.display.draw.text((10, 10), 'Enter amount', font=self.display.font, fill=255)
-        self.display.draw.text((10, 30), "0.00", font=self.display.font, fill=255)
-        self.display.lcd.image(self.display.image)
-        self.display.lcd.display()
+        self.disp.clear()
+        self.disp.display()
+        self.draw.text((10, 10), 'Enter amount', font=self.font, fill=255)
+        self.draw.text((10, 30), "0.00", font=self.font, fill=255)
+        self.disp.image(self.image)
+        self.disp.display()
 
     def getAmount(self, keypad):
         amount = ''
