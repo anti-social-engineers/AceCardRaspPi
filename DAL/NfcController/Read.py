@@ -4,7 +4,6 @@ from DAL.Encryption import *
 from Libraries.Adafruit_pn532.adafruit_pn532 import *
 
 def ReadCard(key, pn532):
-    CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
     print("Place the card on the Scanner")
     while True:
         uid = pn532.read_passive_target()
@@ -13,7 +12,7 @@ def ReadCard(key, pn532):
             encrypted_cardId = ""
             block_list = [40, 41, 42]
             for i in range(0, 3):
-                if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_B, CARD_KEY_B):
+                if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_B, key):
                     print("Failed to Authenticate block, reading stopped at block: {0}".format(block_list[i]))
                     sys.exit(-1)
                 else:

@@ -3,8 +3,7 @@ from PIL import ImageDraw, Image, ImageFont
 from BLL.Display import Display
 from PL.Windows import *
 from DAL.NfcController.Read import ReadCard
-
-
+import sys
 
 class Main:
 
@@ -15,8 +14,6 @@ class Main:
         lcd = SSD106().initialize()
 
         lcd.begin()
-        lcd.clear()
-        lcd.display()
         image = Image.new('1', (lcd.width, lcd.height))
         draw = ImageDraw.Draw(image)
         font = ImageFont.load_default()
@@ -44,15 +41,19 @@ class Main:
                 amountWindow = AmountWindow(display)
                 amountWindow.show()
                 amount = amountWindow.getAmount(keypad)
+                print(amount)
                 if amount is not None:
                     pinWindow = PinWindow(display, amount)
                     pinWindow.show()
-                    cardId = ReadCard("1234", pn532)
+                    #CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
+                    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                    cardId = ReadCard(key, pn532)
                     if cardId:
                         pin = pinWindow.getPin(keypad)
                         if pin is not None:
-                            resultWindow = ResultWindow(display, amount, pin)
-                            resultWindow.show()
+                            sys.exit(-1)
+                            # resultWindow = ResultWindow(display, amount, pin)
+                            # resultWindow.show()
                         else:
                             self.ToMain(display)
                 else:

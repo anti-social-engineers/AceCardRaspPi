@@ -1,13 +1,10 @@
-from digitalio import DigitalInOut
 from BLL.Logic import *
-from Libraries.Adafruit_pn532 import PN532_SPI
-import board
-import busio
+from Libraries.Adafruit_pn532.adafruit_pn532 import MIFARE_CMD_AUTH_A
 from DAL.NfcController.Read import ReadCard
 
 
 def SecureCard(pn532):
-
+    DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
     sectory_trailer = 43
     print("Place the card on the writer to start ")
     uid = None
@@ -35,19 +32,4 @@ def SecureCard(pn532):
         sys.exit(-1)
 
 
-
-if __name__ == '__main__':
-    CS = 18
-    MOSI = 23
-    MISO = 24
-    SCLK = 25
-
-    DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-    # Configuration for a Raspberry Pi:
-    spi = busio.SPI(board.SCK, board.MOSI, board.MISO)
-    cs_pin = DigitalInOut(board.D5)
-    pn532init = PN532_SPI(spi, cs_pin, debug=False)
-    pn532init.SAM_configuration()
-    SecureCard(pn532init)
 

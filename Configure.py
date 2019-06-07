@@ -1,10 +1,11 @@
 import busio
 import board
+import Adafruit_GPIO.SPI as SPI
 from digitalio import DigitalInOut
-from Libraries.Adafruit_pn532 import PN532_I2C
+from Libraries.Adafruit_pn532.i2c import PN532_I2C
 from Libraries import Adafruit_SSD1306
 from Libraries.Adafruit_matrixkeypad import adafruit_matrixkeypad
-import Adafruit_GPIO.SPI as SPI
+
 
 class PN532:
 

@@ -8,7 +8,6 @@ def getTokenResponse():
         "email" : data['email'],
         "password" : data['password']
     }
-    print(params)
     return requests.post(url, json = params)
 
 def openConfig():
@@ -19,18 +18,15 @@ def getToken():
     reponse = getTokenResponse()
     return reponse.json()['jsonWebToken']
 
-def getPINResponse(pincode, cardId, token):
+def getPINResponse(pincode, cardId, amount):
     token = getToken()
+    headers = {'Authorization': token}
     url = 'https://api.aceofclubs.nl/'
     params = {
         "cardid" : cardId,
-        "pincode" : pincode
+        "pincode" : pincode,
+        "amount" : amount
     }
-    reponse = requests.get(url, params)
-    if reponse.status_code == 400:
-        return Exception("Pin Incorrect")
-    elif reponse.status_code == 500:
-        return Exception("No Saldo")
-    else:
-        return True
+    return requests.get(url, params, headers=headers)
+
 
