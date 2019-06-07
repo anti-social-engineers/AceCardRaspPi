@@ -20,6 +20,7 @@ class AmountWindow:
 
     def show(self):
         self.display.lcd.clear()
+        self.display.lcd.display()
         self.display.draw.text((10, 10), 'Enter amount', font=self.display.font, fill=255)
         self.display.draw.text((10, 30), "0.00", font=self.display.font, fill=255)
         self.display.lcd.image(self.display.image)
@@ -31,6 +32,7 @@ class AmountWindow:
         while True:
             pkey = keypad.pressed_keys
             if pkey:
+                print("key pressed " , pkey)
                 if pkey == ["#"]:
                     break
                 elif pkey[0] == ["C"]:
@@ -38,13 +40,15 @@ class AmountWindow:
                 elif pkey[0] == ["*"]:
                     amount = amount[:-1]
                     self.display.lcd.clear()
+                    self.display.lcd.display()
                     self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
                     self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
                     self.display.lcd.image(self.display.image)
                     self.display.lcd.display()
-                elif int(pkey) in numbers:
+                elif pkey[0] in numbers:
                     amount += pkey
                     self.display.lcd.clear()
+                    self.display.lcd.display()
                     self.display.draw.text((50, 10), 'Enter amount', font=self.display.font, fill=255)
                     self.display.draw.text((50, 30), str(int(amount) / float(100)), font=self.display.font, fill=255)
                     self.display.lcd.image(self.display.image)
@@ -63,12 +67,15 @@ class PinWindow:
 
     def show(self):
         self.display.lcd.clear()
+        self.display.lcd.display()
         self.display.draw.text((50, 10), str.format('TOT {0} EUR', self.amount), font=self.display.font, fill=255)
         self.display.draw.text((50, 50), "Uw kaart AUB", font=self.display.font, fill=255)
         self.display.lcd.image(self.display.image)
         self.display.lcd.display()
 
     def getPin(self, keypad):
+        self.display.lcd.clear()
+        self.display.lcd.display()
         self.display.draw.text((50, 10), str.format('TOT {0} EUR', self.amount), font=self.display.font, fill=255)
         self.display.draw.text((50, 50), "Uw PIN AUB", font=self.display.font, fill=255)
         self.display.lcd.image(self.display.image)
