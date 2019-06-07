@@ -30,8 +30,8 @@ class AmountWindow:
     def show(self):
         self.disp.clear()
         self.disp.display()
-        self.draw.text((10, 10), 'Enter amount', font=self.font, fill=255)
-        self.draw.text((10, 30), "0.00", font=self.font, fill=255)
+        self.draw.text((50, 10), 'Enter amount', font=self.font, fill=255)
+        self.draw.text((50, 30), "0.00", font=self.font, fill=255)
         self.disp.image(self.image)
         self.disp.display()
 
