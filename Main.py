@@ -3,6 +3,7 @@ from PIL import ImageDraw, Image, ImageFont
 from BLL.Display import Display
 from PL.Windows import *
 from DAL.NfcController.Read import ReadCard
+import time
 import sys
 
 class Main:
@@ -38,8 +39,9 @@ class Main:
         while True:
             pkey = keypad.pressed_keys
             if pkey:
-                print("key pressed",  pkey)
-                if pkey[0] == [1]:
+                print("key pressed", pkey)
+                if pkey == [1]:
+                    print("enter mode 1")
                     amountWindow = AmountWindow(display)
                     amountWindow.show()
                     amount = amountWindow.getAmount(keypad)
