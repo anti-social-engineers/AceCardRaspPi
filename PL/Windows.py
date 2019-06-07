@@ -1,5 +1,4 @@
 from DAL.ApiController import getPINResponse
-from PIL import ImageDraw, Image, ImageFont
 class ModeWindow:
 
     def __init__(self, display):
@@ -21,6 +20,7 @@ class AmountWindow:
 
     def show(self):
         self.display.lcd.clear()
+        self.display.lcd.display()
         self.display.draw.text((10, 10), 'Enter amount', font=self.display.font, fill=255)
         self.display.draw.text((10, 30), "0.00", font=self.display.font, fill=255)
         self.display.lcd.image(self.display.image)
