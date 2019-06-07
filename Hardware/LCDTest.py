@@ -1,5 +1,7 @@
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
+import time
+from Adafruit_SSD1306.SSD1306 import *
 
 from PIL import ImageDraw, Image, ImageFont
 
@@ -39,3 +41,21 @@ draw.text((2, 2), 'Hello World!', font=font, fill=255)
 
 disp.image(image)
 disp.display()
+
+
+
+image2 = Image.new('1', (disp.width, disp.height))
+draw2 = ImageDraw.Draw(image)
+
+
+time.sleep(2)
+
+disp.clear()
+
+draw2.text((2, 2), 'Hello World!', font=font, fill=255)
+
+disp.image(image2)
+disp.display()
+
+display.clear()
+display.display()
