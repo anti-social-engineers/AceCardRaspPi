@@ -19,8 +19,6 @@ class AmountWindow:
         self.display = display
 
     def show(self):
-        self.display.lcd.reset()
-        self.display.lcd.display()
         self.display.draw.text((10, 10), 'Enter amount', font=self.display.font, fill=255)
         self.display.draw.text((10, 30), "0.00", font=self.display.font, fill=255)
         self.display.lcd.image(self.display.image)

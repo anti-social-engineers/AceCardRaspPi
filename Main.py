@@ -27,14 +27,14 @@ class Main:
         lcd.display()
 
         self.ToMain(display)
-        self.mainLoop(display, keypad, pn532)
+        self.mainLoop(display, keypad, pn532, lcd)
 
     def ToMain(self, display):
         mode = ModeWindow(display)
         mode.show()
 
 
-    def mainLoop(self, display, keypad, pn532):
+    def mainLoop(self, display, keypad, pn532, lcd):
 
         while True:
             pkey = keypad.pressed_keys
@@ -42,6 +42,7 @@ class Main:
                 print("key pressed", pkey)
                 if pkey == [1]:
                     print("enter mode 1")
+                    lcd.clear()
                     amountWindow = AmountWindow(display)
                     amountWindow.show()
                     amount = amountWindow.getAmount(keypad)
