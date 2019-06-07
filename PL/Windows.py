@@ -1,11 +1,12 @@
 from DAL.ApiController import getPINResponse
-
+from PIL import ImageDraw, Image, ImageFont
 class ModeWindow:
 
     def __init__(self, display):
         self.display = display
 
     def show(self):
+
         self.display.lcd.clear()
         self.display.draw.text((10, 10), 'Choose a mode', font=self.display.font, fill=255)
         self.display.draw.text((10, 30), '1 | PIN mode', font=self.display.font, fill=255)
@@ -20,11 +21,9 @@ class AmountWindow:
 
     def show(self):
         self.display.lcd.clear()
-        self.display.lcd.image(self.display.image)
-        self.display.lcd.display()
+        self.display.lcd.reset()
         self.display.draw.text((10, 10), 'Enter amount', font=self.display.font, fill=255)
         self.display.draw.text((10, 30), "0.00", font=self.display.font, fill=255)
-        self.display.lcd.image(self.display.image)
         self.display.lcd.display()
 
     def getAmount(self, keypad):
