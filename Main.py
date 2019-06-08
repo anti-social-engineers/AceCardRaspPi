@@ -1,8 +1,10 @@
 from Configure import *
-from PIL import ImageDraw, Image, ImageFont
 from PL.Windows import *
 from DAL.NfcController.Read import ReadCard
+from DAL.NfcController.Write import WriteCard
+from DAL.NfcController.Block import SecureCard
 import sys
+
 
 class Main:
 
@@ -16,42 +18,65 @@ class Main:
         disp.clear()
         disp.display()
 
-        self.ToMain(disp)
+        MainWindow(disp).show()
+        time.sleep(3)
         self.mainLoop(disp, keypad, pn532)
 
-    def ToMain(self, display):
+    def showModeWindow(self, display):
         mode = ModeWindow(display)
         mode.show()
 
-
     def mainLoop(self, disp, keypad, pn532):
-
+        self.showModeWindow(disp)
         while True:
             pkey = keypad.pressed_keys
             if pkey:
-                print("key pressed", pkey)
-                if pkey == [1]:
-                    print("enter mode 1")
+                time.sleep(0.5)
+                if pkey[0] == 1:
                     amountWindow = AmountWindow(disp)
                     amountWindow.show()
                     amount = amountWindow.getAmount(keypad)
-                    print(amount)
                     if amount is not None:
-                        pinWindow = PinWindow(disp, amount)
-                        pinWindow.show()
-                        #CARD_KEY_B = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
-                        key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-                        cardId = ReadCard(key, pn532)
-                        if cardId:
-                            pin = pinWindow.getPin(keypad)
-                            if pin is not None:
-                                sys.exit(-1)
-                                # resultWindow = ResultWindow(display, amount, pin)
-                                # resultWindow.show()
+                        paymentSucces = False
+                        while not paymentSucces:
+                            pinWindow = PinWindow(disp, amount)
+                            pinWindow.show()
+                            key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                            cardId = ReadCard(key, pn532)
+                            if cardId:
+                                pin = pinWindow.getPin(keypad)
+                                if pin is not None:
+                                    ResultWindow(disp, amount, pin, cardId).show()
+                                    time.sleep(5)
+                                    paymentSucces = True
+                                else:
+                                    self.showModeWindow(disp)
                             else:
-                                self.ToMain(disp)
-                    else:
-                        self.ToMain(disp)
+                                self.showModeWindow(disp)
+                        self.showModeWindow(disp)
+                elif pkey[0] == 2:
+                     WriteWindow(disp).show()
+                     try:
+                         cardId = WriteCard(pn532)
+                         secureWindow = SecureWindow(disp, cardId)
+                         secureWindow.show()
+                         if SecureCard(pn532, secureWindow.confirmBlock(keypad)):
+                             OutputWindow(disp, 'Het is veilig om de kaart te verwijderen van de scanner').show()
+                             time.sleep(3)
+                             self.showModeWindow(disp)
+                         else:
+                             time.sleep(3)
+                             self.showModeWindow(disp)
+                     except Exception as e:
+                         OutputWindow(disp, str(e)).show()
+                         time.sleep(5)
+                         self.showModeWindow(disp)
+                elif pkey[0] == 'C':
+                    disp.reset()
+                    sys.exit(-1)
+
+
+
             else:
                 continue
 

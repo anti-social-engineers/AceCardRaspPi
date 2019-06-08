@@ -1,6 +1,7 @@
 from Crypto.Cipher import AES
 from DAL.ApiController import openConfig
 import base64
+import os
 
 class AESecryption:
 

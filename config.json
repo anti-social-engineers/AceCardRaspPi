@@ -1,5 +1,14 @@
 {
     "email": "raspberry.pi@aceofclubs.nl",
     "password": "xpc^>smGBTRjKLs:Xk6&I>6&w5m~<WC-",
-    "encryptionkey": "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS"
+    "Encryptionkey": "C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeS",
+    "CardKey": [
+        117,
+        66,
+        100,
+        53,
+        95,
+        93
+    ],
+    "ClubId": "123456"
 }

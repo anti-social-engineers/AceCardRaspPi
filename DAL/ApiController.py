@@ -30,3 +30,5 @@ def getPINResponse(pincode, cardId, amount):
     return requests.get(url, params, headers=headers)
 
 
+def getCardKey():
+    return openConfig()['CardKey']

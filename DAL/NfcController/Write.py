@@ -2,12 +2,8 @@ from BLL.Logic import *
 from DAL.Encryption import *
 from Libraries.Adafruit_pn532.adafruit_pn532 import MIFARE_CMD_AUTH_A
 
-
-
 def WriteCard(pn532):
-
     DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
     print("Waiting for card...")
     uid = None
     while uid is None:
@@ -26,14 +22,15 @@ def WriteCard(pn532):
         print("Writing block {0}".format(block_list[i]))
         if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_A, DEFAULT_CARD_KEY):
             print("Failed to Authenticate block, writing stopped at block: {0}".format(block_list[i]))
-            sys.exit(-1)
+            raise Exception('Er is iets fout gegaan. Probeert opnieuw')
         else:
             block = block_list[i]
             if not pn532.mifare_classic_write_block(block, bytearray(splitted_cardId_list[i], "UTF-8")):
                 print("Error during writing! Failed to write on block {0}", block)
                 print("Cancelling writing")
-                sys.exit(-1)
-    print("Succesfully writting all blocks. You can safely remove the card now!")
+                raise Exception('Er is iets mis gegaan. Probeer opnieuw')
+    return cardId
+
 
 
 
