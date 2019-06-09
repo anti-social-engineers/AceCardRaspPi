@@ -10,7 +10,7 @@ class AESecryption:
 
     def getKey(self):
         data = openConfig()
-        return data['encryptionkey'].encode("UTF-9")
+        return data['Encryptionkey'].encode("UTF-8")
 
     def encrypt(self, cardId):
         cardId_byte_array = cardId.encode("UTF-8")

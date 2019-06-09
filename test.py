@@ -1,20 +1,9 @@
-
-def lel(e):
-    if e == "A":
-        return e
-    else:
-        raise Exception("Ex 1")
-
-def lel2(e):
-    if e == "B":
-        return e
-    else:
-        raise Exception("Ex 2")
+from DAL.Encryption import AESecryption
 
 
-try:
-    lel("A")
-    lel2("a")
-except Exception as e:
-    print(str(e))
+test1 = 'qwerty12345query'
+
+x = AESecryption()
+print('{0} - {1}'.format(test1, x.encrypt(test1)))
+
 

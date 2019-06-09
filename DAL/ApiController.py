@@ -18,13 +18,13 @@ def getToken():
     reponse = getTokenResponse()
     return reponse.json()['jsonWebToken']
 
-def getPINResponse(pincode, cardId, amount):
-    token = getToken()
+def getPINResponse(cardId, cardPin, amount, token):
     headers = {'Authorization': token}
     url = 'https://api.aceofclubs.nl/'
     params = {
-        "cardid" : cardId,
-        "pincode" : pincode,
+        "club_id" : getClubId(),
+        "card_code" : cardId,
+        "card_pin" : cardPin,
         "amount" : amount
     }
     return requests.get(url, params, headers=headers)
@@ -32,3 +32,6 @@ def getPINResponse(pincode, cardId, amount):
 
 def getCardKey():
     return openConfig()['CardKey']
+
+def getClubId():
+    return openConfig()['ClubId']
