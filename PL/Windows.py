@@ -165,6 +165,7 @@ class PaymentWindow(BaseWindow):
                         response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
                     self.drawText(10, 30, 'Kaart is niet herkend')
+                    time.sleep(1)
                     self.disp.image(self.image)
                     self.disp.display()
                     pw.show()

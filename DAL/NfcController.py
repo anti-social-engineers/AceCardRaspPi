@@ -51,8 +51,8 @@ def ReadCard(pn532):
                         else:
                             raise NFCScanError("No data to be found on block {0}".format(block_list[i]))
                 print("All blocks are read, decrypting now....")
-                encrypted_cardId = encrypted_cardId[0:45]
-                decrypted_cardId = AESecryption().decrypt(encrypted_cardId)
+                to_be_encrypted_cardId = encrypted_cardId[0:45]
+                decrypted_cardId = AESecryption().decrypt(to_be_encrypted_cardId)
                 print('==============================================================')
                 print('CARD ID FOUND: {0}'.format(decrypted_cardId))
                 print('==============================================================')
