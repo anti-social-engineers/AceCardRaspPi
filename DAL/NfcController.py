@@ -13,7 +13,8 @@ def WriteCard(pn532):
     print("Card found!! uid: {0}".format(duid))
     cardId = generateUid(duid)
     encrypted = AESecryption().encrypt(cardId) + "0000"
-    print('THE UID TO BE WRITTEN ON THE CARD: {0}'.format(encrypted))
+    print('THE UID TO BE WRITTEN ON THE CARD: {0} --- {1}'.format(encrypted, cardId))
+    print('')
     splitted_cardId_list = split_encrypted_into_blocks(encrypted)
     block_list = [40, 41, 42]
     print("Starting to write all blocks")
