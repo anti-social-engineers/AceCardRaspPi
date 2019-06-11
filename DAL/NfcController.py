@@ -41,7 +41,7 @@ def ReadCard(pn532):
                 encrypted_cardId = ""
                 block_list = [40, 41, 42]
                 for i in range(0, 3):
-                    if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_B, key):
+                    if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_A, key):
                         print()
                         raise NFCScanError("Failed to Authenticate block, reading stopped at block: {0}".format(block_list[i]))
                     else:
