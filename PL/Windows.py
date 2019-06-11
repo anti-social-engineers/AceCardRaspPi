@@ -46,7 +46,6 @@ class AmountWindow(BaseWindow):
         okPressed = False
         while not okPressed:
             print(amount)
-            print(float(amount))
             pkey = keypad.pressed_keys
             if pkey:
                 self.newImage()
@@ -132,45 +131,48 @@ class PaymentWindow(BaseWindow):
         aw = AmountWindow(self.disp)
         aw.show()
         amount = aw.getAmount(self.keypad)
-        pw = PinWindow(self.disp,amount)
-        pw.show()
-        pin = pw.getPin(self.keypad)
         # cardId = ReadCard(self.pn532)
         cardId = 'cB7K+6hwm+dZCBmoNT76N7CPONRFTepfWql3jQ7n9+g=0000'
-        token = getToken()
-        response = getPINResponse(token, amount, pin, cardId)
-        while not response.status_code == 201:
-            self.newImage()
-            # animation = ''
-            # loading = 0
-            # self.loading(response, animation, loading)
-            if response.status_code == 401:
-                if response.text == 'Unauthorized':
-                    token = getToken()
-                    response = getPINResponse(token, amount, pin, cardId)
-                else:
-                    self.drawText(50, 30, 'Incorrect PIN.')
+        if cardId:
+            pw = PinWindow(self.disp, amount)
+            pw.show()
+            pin = pw.getPin(self.keypad)
+            token = getToken()
+            response = getPINResponse(token, amount, pin, cardId)
+            while not response.status_code == 201:
+                self.newImage()
+                # animation = ''
+                # loading = 0
+                # self.loading(response, animation, loading)
+                if response.status_code == 401:
+                    if response.text == 'Unauthorized':
+                        token = getToken()
+                        response = getPINResponse(token, amount, pin, cardId)
+                    else:
+                        self.drawText(50, 30, 'Incorrect PIN.')
+                        time.sleep(1)
+                        pin = pw.getPin(self.keypad)
+                        response = getPINResponse(token, amount, pin, cardId)
+                elif response.status_code == 404:
+                    self.drawText(50, 30, 'Kaart is niet herkend. Probeer opnieuw.')
                     time.sleep(1)
+                    cardId = ReadCard(self.pn532)
                     pin = pw.getPin(self.keypad)
                     response = getPINResponse(token, amount, pin, cardId)
-            elif response.status_code == 404:
-                self.drawText(50, 30, 'Kaart is niet herkend. Probeer opnieuw.')
-                time.sleep(1)
-                cardId = ReadCard(self.pn532)
-                pin = pw.getPin(self.keypad)
-                response = getPINResponse(token, amount, pin, cardId)
-            elif response.status_code == 429 or response.status_code == 403:
-                raise UserError('Kaart is geblokkeerd.')
-            elif response.status_code == 400:
-                raise UserError('Onvoldoende Saldo.')
-            elif response.status_code == 403:
-                raise UserError('Toegang geweigerd.')
-            else:
-                raise CancelError
-        self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
-        self.drawText(50, 30, 'AKKOORD')
-        self.disp.image(self.image)
-        self.disp.display()
+                elif response.status_code == 429 or response.status_code == 403:
+                    raise UserError('Kaart is geblokkeerd.')
+                elif response.status_code == 400:
+                    raise UserError('Onvoldoende Saldo.')
+                elif response.status_code == 403:
+                    raise UserError('Toegang geweigerd.')
+                else:
+                    raise CancelError
+            self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
+            self.drawText(50, 30, 'AKKOORD')
+            self.disp.image(self.image)
+            self.disp.display()
+        else:
+            raise NFCScanError
 
     def loading(self, response, animation, loading):
         while response is None:
