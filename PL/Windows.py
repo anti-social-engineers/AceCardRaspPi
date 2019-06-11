@@ -19,7 +19,7 @@ class MainWindow(BaseWindow):
 class ModeWindow(BaseWindow):
 
     def __init__(self, disp):
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self):
         self.drawText(10, 10, 'Kies modus')
@@ -72,7 +72,7 @@ class PinWindow(BaseWindow):
 
     def __init__(self, disp, amount):
         self.amount = amount
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self):
         self.drawText(50, 10, 'TOT {0} EUR'.format(self.amount))
@@ -119,7 +119,7 @@ class PaymentWindow(BaseWindow):
     def __init__(self, disp, keypad, pn532):
         self.keypad = keypad
         self.pn532 = pn532
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self):
         self.disp.clear()
@@ -182,7 +182,7 @@ class WriteWindow(BaseWindow):
 
     def __init__(self, disp):
         self.cardId = None
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self, pn532):
         self.drawText(50, 10, 'Plaats the kaart op de scanner')
@@ -205,7 +205,7 @@ class WriteWindow(BaseWindow):
 class SecureWindow(BaseWindow):
 
     def __init__(self, disp):
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self, pn532, cardId, keypad):
         self.drawText(50, 10, 'Kaart geschreven met Id: {}')
@@ -243,7 +243,7 @@ class DisplayError(BaseWindow):
 
     def __init__(self, disp, result):
         self.result = result
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self):
         self.draw.text((50, 50), self.result, font=self.font, fill=255)
