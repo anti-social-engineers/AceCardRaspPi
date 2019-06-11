@@ -7,6 +7,8 @@ class BaseWindow(ABC):
         self.image = Image.new('1', (self.disp.width, self.disp.height))
         self.draw = ImageDraw.Draw(self.image)
         self.font = ImageFont.load_default()
+        self.disp.clear()
+        self.disp.display()
 
     def drawText(self, x, y, text):
         self.draw.text((x, y), text, font=self.font, fill=255)

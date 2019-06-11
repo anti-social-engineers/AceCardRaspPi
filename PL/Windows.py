@@ -23,11 +23,9 @@ class ModeWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
-        self.disp.clear()
-        self.disp.display()
-        self.drawText(10, 10, 'Kies modus')
-        self.drawText(10, 10, '1 | PIN mode')
-        self.drawText(10, 10, '2 | Secure mode')
+        self.drawText(30, 10, 'Kies modus')
+        self.drawText(30, 30, '1 | PIN mode')
+        self.drawText(30, 50, '2 | Secure mode')
         self.disp.image(self.image)
         self.disp.display()
 
@@ -37,8 +35,8 @@ class AmountWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
-        self.drawText(10, 10, 'Voer bedrag in')
-        self.drawText(10, 10, '0.00')
+        self.drawText(30, 10, 'Voer bedrag in')
+        self.drawText(30, 30, '0.00')
         self.disp.image(self.image)
         self.disp.display()
 
