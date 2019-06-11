@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from PIL import ImageDraw, Image, ImageFont
 
 class BaseWindow(ABC):

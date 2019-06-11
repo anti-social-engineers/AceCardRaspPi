@@ -11,12 +11,10 @@ def WriteCard(pn532):
         uid = pn532.read_passive_target()
     duid = get_decoded_string(uid)
     print("Card found!! uid: {0}".format(duid))
-    print('==============================================================')
-    print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')
-    print('==============================================================')
     cardId = generateUid(duid)
-    print('THE UID TO BE WRITTEN ON THE CARD: {0}'.format(cardId))
-    splitted_cardId_list = split_encrypted_into_blocks(AESecryption().encrypt(cardId) + "0000")
+    encrypted = AESecryption().encrypt(cardId) + "0000"
+    print('THE UID TO BE WRITTEN ON THE CARD: {0}'.format(encrypted))
+    splitted_cardId_list = split_encrypted_into_blocks(encrypted)
     block_list = [40, 41, 42]
     print("Starting to write all blocks")
     for i in range(0, 3):

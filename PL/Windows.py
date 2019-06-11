@@ -51,7 +51,7 @@ class AmountWindow(BaseWindow):
                 self.drawText(30, 10, 'Voer bedrag in')
                 self.drawText(5, 50, '* | Terug')
                 self.drawText(80, 50, '# | OK')
-                time.sleep(1)
+                time.sleep(0.5)
                 if pkey[0] == '#':
                     okPressed = True
                 elif pkey[0] == '*' and len(amount) > 0:
@@ -82,13 +82,13 @@ class PinWindow(BaseWindow):
         self.disp.image(self.image)
         self.disp.display()
 
-    def showIfCard(self):
+    def getPin(self, keypad):
         self.newImage()
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(30, 30, "Uw PIN AUB")
+        self.disp.image(self.image)
         self.disp.display()
-
-    def getPin(self, keypad):
+        time.sleep(1)
         pin = ''
         output = ''
         okPressed = False
@@ -96,24 +96,24 @@ class PinWindow(BaseWindow):
         while not okPressed:
             self.newImage()
             self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
-            self.drawText(30, 30, "Uw PIN AUB")
             self.drawText(5, 50, '* | Terug')
             self.drawText(80, 50, '# | OK')
             pkey = keypad.pressed_keys
             if pkey:
+                time.sleep(0.5)
                 if pkey[0] == '#':
                     okPressed = True
                 elif pkey[0] == "*" and len(pin) > 0:
                     pin = pin[:-1]
                     output = output[:-2]
-                    self.drawText(50, 40, output)
+                    self.drawText(30, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
                 elif int(pkey[0]) in numbers and len(pin) <= 4:
                     pin += str(pkey[0])
                     output += '*'
                     output += ' '
-                    self.drawText(50, 40, output)
+                    self.drawText(30, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] == 'C':
@@ -130,7 +130,6 @@ class PaymentWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
-        self.disp.clear()
         aw = AmountWindow(self.disp)
         aw.show()
         amount = aw.getAmount(self.keypad)
@@ -140,7 +139,6 @@ class PaymentWindow(BaseWindow):
         cardId = 'cB7K+6hwm+dZCBmoNT76N7CPONRFTepfWql3jQ7n9+g=0000'
         if cardId is not None:
             print("passed condition cardId")
-            pw.showIfCard()
             pin = pw.getPin(self.keypad)
             token = getToken()
             response = getPINResponse(token, amount, pin, cardId)
@@ -155,11 +153,15 @@ class PaymentWindow(BaseWindow):
                         response = getPINResponse(token, amount, pin, cardId)
                     else:
                         self.drawText(50, 30, 'Incorrect PIN.')
+                        self.disp.image(self.image)
+                        self.disp.display()
                         time.sleep(1)
                         pin = pw.getPin(self.keypad)
                         response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
                     self.drawText(50, 30, 'Kaart is niet herkend. Probeer opnieuw.')
+                    self.disp.image(self.image)
+                    self.disp.display()
                     time.sleep(1)
                     cardId = ReadCard(self.pn532)
                     pin = pw.getPin(self.keypad)
