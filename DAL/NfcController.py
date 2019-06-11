@@ -56,7 +56,7 @@ def ReadCard(pn532):
                 print('==============================================================')
                 print('CARD ID FOUND: {0}'.format(decrypted_cardId))
                 print('==============================================================')
-                return decrypted_cardId
+                return encrypted_cardId
             else:
                 continue
     else:
