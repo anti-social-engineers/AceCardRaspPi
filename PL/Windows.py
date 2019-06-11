@@ -2,6 +2,7 @@ from DAL.ApiController import getPINResponse
 from PL.AbstractBaseWindow import BaseWindow
 from DAL.NfcController import WriteCard, ReadCard, SecureCard
 from DAL.ApiController import getToken
+from BLL.CustomErrors import *
 import time
 
 
@@ -74,7 +75,6 @@ class PinWindow(BaseWindow):
         super(BaseWindow).__init__(disp)
 
     def show(self):
-
         self.drawText(50, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(50, 50, "Uw kaart AUB")
         self.disp.image(self.image)
@@ -109,7 +109,7 @@ class PinWindow(BaseWindow):
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] == 'C':
-                    raise KeyboardInterrupt('Onderbroken')
+                    raise CancelError
                 else:
                     continue
         return pin
@@ -129,43 +129,50 @@ class PaymentWindow(BaseWindow):
         pw = PinWindow(self.disp,amount)
         pw.show()
         pin = pw.getPin(self.keypad)
-        cardId = ReadCard(self.pn532)
+        # cardId = ReadCard(self.pn532)
+        cardId = 'cB7K+6hwm+dZCBmoNT76N7CPONRFTepfWql3jQ7n9+g=0000'
         token = getToken()
         response = getPINResponse(token, amount, pin, cardId)
         while not response.status_code == 201:
             self.newImage()
-            animation = ''
-            loading = 0
-            while response is None:
-                self.loading(animation, loading)
-            if response.status_code == 400:
-                raise Exception('Onvoldoende saldo!')
-            elif response.status_code == 401:
-                if response.json() == 'Unauthorized':
+            # animation = ''
+            # loading = 0
+            # self.loading(response, animation, loading)
+            if response.status_code == 401:
+                if response.text == 'Unauthorized':
                     token = getToken()
                     response = getPINResponse(token, amount, pin, cardId)
                 else:
-                    self.drawText(50, 30, 'Incorrect PIN')
+                    self.drawText(50, 30, 'Incorrect PIN.')
+                    time.sleep(1)
                     pin = pw.getPin(self.keypad)
                     response = getPINResponse(token, amount, pin, cardId)
+            elif response.status_code == 404:
+                self.drawText(50, 30, 'Kaart is niet herkend. Probeer opnieuw.')
+                time.sleep(1)
+                cardId = ReadCard(self.pn532)
+                pin = pw.getPin(self.keypad)
+                response = getPINResponse(token, amount, pin, cardId)
             elif response.status_code == 429 or response.status_code == 403:
-                raise Exception('Kaart is geblokkeerd')
+                raise UserError('Kaart is geblokkeerd.')
+            elif response.status_code == 400:
+                raise UserError('Onvoldoende Saldo.')
             elif response.status_code == 403:
-                raise Exception('Kaart is niet gevonden')
+                raise UserError('Toegang geweigerd.')
             else:
-                raise KeyboardInterrupt
+                raise CancelError
         self.drawText(50, 10, 'TOT {0} EUR'.format(amount))
-        self.drawText(50, 30, 'Betaling succes')
+        self.drawText(50, 30, 'AKKOORD')
         self.disp.image(self.image)
         self.disp.display()
 
-    def loading(self, animation, loading):
-        while True:
+    def loading(self, response, animation, loading):
+        while response is None:
             if loading > 3:
                 loading = 0
                 animation = ''
             self.newImage()
-            self.drawText(50, 30, 'Laden{0}'.format(animation))
+            self.drawText(50, 30, 'Een ogenblik AUB{0}'.format(animation))
             self.disp.display()
             animation += '.'
             loading += 1

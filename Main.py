@@ -1,5 +1,6 @@
 from Configure import *
 from PL.Windows import *
+from BLL.CustomErrors import *
 import sys
 
 
@@ -39,16 +40,19 @@ class Main:
                              sw.show(pn532, ww.getCardId(), keypad)
                              time.sleep(5)
                              self.showModeWindow(disp)
-                    elif pkey[0] == 'C':
-                        disp.reset()
-                        sys.exit(-1)
                     else:
                         continue
-        except Exception as e:
+        except UserError as e:
             DisplayError(disp, str(e)).show()
             time.sleep(5)
             self.showModeWindow(disp)
-        except KeyboardInterrupt:
+        except NFCScanError as e:
+            print(str(e))
+            self.showModeWindow(disp)
+        except CancelError:
+            self.showModeWindow(disp)
+        except ApiError as e:
+            print(str(e))
             self.showModeWindow(disp)
 
 
