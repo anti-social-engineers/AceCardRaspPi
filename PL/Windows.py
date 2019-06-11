@@ -55,6 +55,7 @@ class AmountWindow(BaseWindow):
                 if pkey[0] == '#':
                     okPressed = True
                 elif pkey[0] == '*' and len(amount) > 0:
+                    amount = amount[:-1]
                     self.drawText(50, 30, str(int(amount) / float(100)))
                     self.disp.image(self.image)
                     self.disp.display()
@@ -77,7 +78,7 @@ class PinWindow(BaseWindow):
 
     def show(self):
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
-        self.drawText(50, 30, "Uw kaart AUB")
+        self.drawText(30, 30, "Uw kaart AUB")
         self.disp.image(self.image)
         self.disp.display()
 
@@ -89,7 +90,7 @@ class PinWindow(BaseWindow):
         while not okPressed:
             self.newImage()
             self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
-            self.drawText(50, 30, "Uw PIN AUB")
+            self.drawText(30, 30, "Uw PIN AUB")
             self.drawText(5, 50, '* | Terug')
             self.drawText(80, 50, '# | OK')
             pkey = keypad.pressed_keys
