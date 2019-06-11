@@ -110,7 +110,7 @@ class PinWindow(BaseWindow):
                     self.disp.image(self.image)
                     self.disp.display()
                 elif int(pkey[0]) in numbers and len(pin) <= 4:
-                    pin += pkey[0]
+                    pin += str(pkey[0])
                     output += '*'
                     output += ' '
                     self.drawText(50, 40, output)
@@ -138,7 +138,9 @@ class PaymentWindow(BaseWindow):
         pw = PinWindow(self.disp, amount)
         pw.show()
         cardId = 'cB7K+6hwm+dZCBmoNT76N7CPONRFTepfWql3jQ7n9+g=0000'
-        if cardId:
+        if cardId is not None:
+            print("passed condition cardId")
+            pw.showIfCard()
             pin = pw.getPin(self.keypad)
             token = getToken()
             response = getPINResponse(token, amount, pin, cardId)
