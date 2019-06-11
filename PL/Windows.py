@@ -82,11 +82,13 @@ class PinWindow(BaseWindow):
         self.disp.image(self.image)
         self.disp.display()
 
-    def getPin(self, keypad):
+    def showIfCard(self):
         self.newImage()
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(30, 30, "Uw PIN AUB")
         self.disp.display()
+
+    def getPin(self, keypad):
         pin = ''
         output = ''
         okPressed = False
@@ -108,7 +110,7 @@ class PinWindow(BaseWindow):
                     self.disp.image(self.image)
                     self.disp.display()
                 elif int(pkey[0]) in numbers and len(pin) <= 4:
-                    pin += pkey
+                    pin += pkey[0]
                     output += '*'
                     output += ' '
                     self.drawText(50, 40, output)
