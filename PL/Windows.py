@@ -83,6 +83,10 @@ class PinWindow(BaseWindow):
         self.disp.display()
 
     def getPin(self, keypad):
+        self.newImage()
+        self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
+        self.drawText(30, 30, "Uw PIN AUB")
+        self.disp.display()
         pin = ''
         output = ''
         okPressed = False
@@ -100,14 +104,14 @@ class PinWindow(BaseWindow):
                 elif pkey[0] == "*" and len(pin) > 0:
                     pin = pin[:-1]
                     output = output[:-2]
-                    self.drawText(50, 30, output)
+                    self.drawText(50, 40, output)
                     self.disp.image(self.image)
                     self.disp.display()
                 elif int(pkey[0]) in numbers and len(pin) <= 4:
                     pin += pkey
                     output += '*'
                     output += ' '
-                    self.drawText(50, 30, output)
+                    self.drawText(50, 40, output)
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] == 'C':
@@ -129,10 +133,10 @@ class PaymentWindow(BaseWindow):
         aw.show()
         amount = aw.getAmount(self.keypad)
         # cardId = ReadCard(self.pn532)
+        pw = PinWindow(self.disp, amount)
+        pw.show()
         cardId = 'cB7K+6hwm+dZCBmoNT76N7CPONRFTepfWql3jQ7n9+g=0000'
         if cardId:
-            pw = PinWindow(self.disp, amount)
-            pw.show()
             pin = pw.getPin(self.keypad)
             token = getToken()
             response = getPINResponse(token, amount, pin, cardId)
