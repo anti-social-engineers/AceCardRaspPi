@@ -45,6 +45,8 @@ class AmountWindow(BaseWindow):
         numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         okPressed = False
         while not okPressed:
+            print(amount)
+            print(float(amount))
             pkey = keypad.pressed_keys
             if pkey:
                 self.newImage()
@@ -68,6 +70,8 @@ class AmountWindow(BaseWindow):
                     raise KeyboardInterrupt
                 else:
                     continue
+        print(amount)
+        print(float(amount))
         return float(amount)
 
 class PinWindow(BaseWindow):
