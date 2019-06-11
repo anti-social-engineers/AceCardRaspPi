@@ -9,7 +9,7 @@ import time
 class MainWindow(BaseWindow):
 
     def __init__(self, disp):
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self):
         self.drawText(30, 10, 'Welkom bij Ace')
@@ -31,7 +31,7 @@ class ModeWindow(BaseWindow):
 class AmountWindow(BaseWindow):
 
     def __init__(self, disp):
-        super(BaseWindow).__init__(disp)
+        super().__init__(disp)
 
     def show(self):
         self.drawText(10, 10, 'Voer bedrag in')
