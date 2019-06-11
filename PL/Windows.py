@@ -133,10 +133,12 @@ class PaymentWindow(BaseWindow):
         aw = AmountWindow(self.disp)
         aw.show()
         amount = aw.getAmount(self.keypad)
-        # cardId = ReadCard(self.pn532)
+
         pw = PinWindow(self.disp, amount)
         pw.show()
-        cardId = '/aetHCBPxhfa2ZMab6hPKxITPqV4ALTqX9ykwZLfbis=0000'
+        # cardId = '/aetHCBPxhfa2ZMab6hPKxITPqV4ALTqX9ykwZLfbis=0000'
+        cardId = ReadCard(self.pn532)
+        print(cardId)
         if cardId is not None:
             print("passed condition cardId")
             pin = pw.getPin(self.keypad)
@@ -262,7 +264,7 @@ class DisplayError(BaseWindow):
         super().__init__(disp)
 
     def show(self):
-        self.draw.text((30, 30), self.result, font=self.font, fill=255)
+        self.draw.text((10, 30), self.result, font=self.font, fill=255)
         self.disp.image(self.image)
         self.disp.display()
 

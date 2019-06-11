@@ -31,7 +31,8 @@ def WriteCard(pn532):
 
 def ReadCard(pn532):
     print("Place the card on the Scanner")
-    key = openConfig()['Encryptionkey']
+    # key = openConfig()['Encryptionkey']
+    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
     if key:
         while True:
             uid = pn532.read_passive_target()
