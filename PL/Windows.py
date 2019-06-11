@@ -13,7 +13,7 @@ class MainWindow(BaseWindow):
 
     def show(self):
         self.drawText(30, 10, 'Welkom bij Ace')
-        self.disp.display(0)
+        self.disp.display()
 
 
 class ModeWindow(BaseWindow):
