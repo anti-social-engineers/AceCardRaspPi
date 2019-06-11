@@ -13,6 +13,7 @@ class MainWindow(BaseWindow):
 
     def show(self):
         self.drawText(30, 10, 'Welkom bij Ace')
+        self.disp.image(self.image)
         self.disp.display()
 
 
@@ -22,6 +23,8 @@ class ModeWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
+        self.disp.clear()
+        self.disp.display()
         self.drawText(10, 10, 'Kies modus')
         self.drawText(10, 10, '1 | PIN mode')
         self.drawText(10, 10, '2 | Secure mode')

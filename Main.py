@@ -17,12 +17,11 @@ class Main:
         disp.display()
 
         MainWindow(disp).show()
-        time.sleep(3)
+        time.sleep(2)
         self.mainLoop(disp, keypad, pn532)
 
     def showModeWindow(self, display):
-        mode = ModeWindow(display)
-        mode.show()
+        ModeWindow(display).show()
 
     def mainLoop(self, disp, keypad, pn532):
         self.showModeWindow(disp)
