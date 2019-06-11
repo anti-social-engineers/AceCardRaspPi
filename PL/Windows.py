@@ -106,14 +106,14 @@ class PinWindow(BaseWindow):
                 elif pkey[0] == "*" and len(pin) > 0:
                     pin = pin[:-1]
                     output = output[:-2]
-                    self.drawText(30, 30, output)
+                    self.drawText(40, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
-                elif int(pkey[0]) in numbers and len(pin) <= 4:
+                elif int(pkey[0]) in numbers and len(pin) < 4:
                     pin += str(pkey[0])
                     output += '*'
                     output += ' '
-                    self.drawText(30, 30, output)
+                    self.drawText(40, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] == 'C':
@@ -144,6 +144,7 @@ class PaymentWindow(BaseWindow):
             response = getPINResponse(token, amount, pin, cardId)
             while not response.status_code == 201:
                 self.newImage()
+                self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
                 # animation = ''
                 # loading = 0
                 # self.loading(response, animation, loading)
@@ -152,14 +153,14 @@ class PaymentWindow(BaseWindow):
                         token = getToken()
                         response = getPINResponse(token, amount, pin, cardId)
                     else:
-                        self.drawText(50, 30, 'Incorrect PIN.')
+                        self.drawText(30, 30, 'Incorrect PIN.')
                         self.disp.image(self.image)
                         self.disp.display()
                         time.sleep(1)
                         pin = pw.getPin(self.keypad)
                         response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
-                    self.drawText(50, 30, 'Kaart is niet herkend. Probeer opnieuw.')
+                    self.drawText(30, 30, 'Kaart is niet herkend')
                     self.disp.image(self.image)
                     self.disp.display()
                     time.sleep(1)
@@ -175,7 +176,7 @@ class PaymentWindow(BaseWindow):
                 else:
                     raise CancelError
             self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
-            self.drawText(50, 30, 'AKKOORD')
+            self.drawText(40, 30, 'AKKOORD')
             self.disp.image(self.image)
             self.disp.display()
         else:
