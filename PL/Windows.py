@@ -77,6 +77,7 @@ class PinWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
+        self.newImage()
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(30, 30, "Uw kaart AUB")
         self.disp.image(self.image)
@@ -159,16 +160,18 @@ class PaymentWindow(BaseWindow):
                         self.disp.image(self.image)
                         self.disp.display()
                         time.sleep(1)
+                        pw.show()
                         pin = pw.getPin(self.keypad)
                         response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
-                    self.drawText(30, 30, 'Kaart is niet herkend')
+                    self.drawText(10, 30, 'Kaart is niet herkend')
                     self.disp.image(self.image)
                     self.disp.display()
-                    time.sleep(1)
+                    pw.show()
                     cardId = ReadCard(self.pn532)
-                    pin = pw.getPin(self.keypad)
-                    response = getPINResponse(token, amount, pin, cardId)
+                    if cardId is not None:
+                        pin = pw.getPin(self.keypad)
+                        response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 429 or response.status_code == 403:
                     raise UserError('Kaart is geblokkeerd.')
                 elif response.status_code == 400:
