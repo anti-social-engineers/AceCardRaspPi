@@ -111,14 +111,14 @@ class PinWindow(BaseWindow):
                 elif pkey[0] == "*" and len(pin) > 0:
                     pin = pin[:-1]
                     output = output[:-2]
-                    self.drawText(40, 30, output)
+                    self.drawText(45, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] in self.numbers and len(pin) < 4:
                     pin += str(pkey[0])
                     output += '*'
                     output += ' '
-                    self.drawText(40, 30, output)
+                    self.drawText(45, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
                 else:
@@ -144,6 +144,7 @@ class PaymentWindow(BaseWindow):
             pin = pw.getPin(self.keypad)
             token = getToken()
             response = getPINResponse(token, amount, pin, cardId)
+            print(response.text)
             while not response.status_code == 201:
                 self.newImage()
                 self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
@@ -175,7 +176,7 @@ class PaymentWindow(BaseWindow):
                         pin = pw.getPin(self.keypad)
                         response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 429 or response.status_code == 403:
-                    raise UserError('Kaart is geblokkeerd.')
+                    raise UserError('Kaart geblokkeerd.')
                 elif response.status_code == 400:
                     raise UserError('Onvoldoende Saldo.')
                 elif response.status_code == 403:

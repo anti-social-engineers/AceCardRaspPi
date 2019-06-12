@@ -32,7 +32,7 @@ class Main:
                     time.sleep(0.5)
                     if pkey[0] == 1:
                         PaymentWindow(disp, keypad, pn532).show()
-                        time.sleep(2)
+                        time.sleep(5)
                         self.showModeWindow(disp)
                     elif pkey[0] == 2:
                          ww = WriteWindow(disp)
@@ -45,7 +45,7 @@ class Main:
                          continue
             except UserError as e:
                 DisplayError(disp, str(e)).show()
-                time.sleep(2)
+                time.sleep(5)
                 self.showModeWindow(disp)
             except NFCScanError as e:
                 print(str(e))
