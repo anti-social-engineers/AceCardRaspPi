@@ -3,7 +3,6 @@ from PL.AbstractBaseWindow import BaseWindow
 from DAL.NfcController import WriteCard, ReadCard, SecureCard
 from DAL.ApiController import getToken
 from BLL.CustomErrors import *
-from PIL import Image, ImageDraw
 import time
 
 
@@ -13,16 +12,9 @@ class MainWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
-        base = Image.open('PL/nfc.png')
-        txt = Image.new('1', base.size)
-        d = ImageDraw.Draw(txt)
-        self.disp.image(txt)
+        self.drawText(30, 10, 'Welkom bij Ace')
+        self.disp.image(self.image)
         self.disp.display()
-        time.sleep(10)
-
-    #     self.drawText(30, 10, 'Welkom bij Ace')
-    #     self.disp.image(self.image)
-    #     self.disp.display()
 
 class ModeWindow(BaseWindow):
 
@@ -33,8 +25,7 @@ class ModeWindow(BaseWindow):
         self.drawText(30, 10, 'Kies modus')
         self.drawText(30, 30, '1 | PIN mode')
         self.drawText(30, 50, '2 | Secure mode')
-        self.disp.image(self.image)
-        self.disp.display()
+        self.Display()
 
 class AmountWindow(BaseWindow):
 
@@ -45,8 +36,7 @@ class AmountWindow(BaseWindow):
     def show(self):
         self.drawText(30, 10, 'Voer bedrag in')
         self.drawText(50, 30, '0.00')
-        self.disp.image(self.image)
-        self.disp.display()
+        self.Display()
 
     def getAmount(self, keypad):
         amount = ''
@@ -54,7 +44,6 @@ class AmountWindow(BaseWindow):
             pkey = keypad.pressed_keys
             if pkey:
                 self.newImage()
-                self.drawText(30, 10, 'Voer bedrag in')
                 self.drawText(5, 50, '* | Terug')
                 self.drawText(80, 50, '# | OK')
                 time.sleep(0.25)
@@ -66,13 +55,11 @@ class AmountWindow(BaseWindow):
                         self.drawText(50, 30, '0.00')
                     else:
                         self.drawText(50, 30, str(int(amount) / float(100)))
-                    self.disp.image(self.image)
-                    self.disp.display()
+                    self.Display()
                 elif pkey[0] in self.numbers:
                     amount += str(pkey[0])
                     self.drawText(50, 30, str(int(amount) / float(100)))
-                    self.disp.image(self.image)
-                    self.disp.display()
+                    self.Display()
                 # elif pkey[0] == 'C':
                 #     raise CancelError
                 else:
@@ -90,15 +77,13 @@ class PinWindow(BaseWindow):
         self.newImage()
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(30, 30, "Uw kaart AUB")
-        self.disp.image(self.image)
-        self.disp.display()
+        self.Display()
 
     def show(self):
         self.newImage()
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(30, 30, "Uw PIN AUB")
-        self.disp.image(self.image)
-        self.disp.display()
+        self.Display()
 
     def getPin(self, keypad):
         self.show()
@@ -108,7 +93,6 @@ class PinWindow(BaseWindow):
         self.show()
         while True:
             self.newImage()
-            self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
             self.drawText(5, 50, '* | Terug')
             self.drawText(80, 50, '# | OK')
             pkey = keypad.pressed_keys
@@ -120,15 +104,13 @@ class PinWindow(BaseWindow):
                     pin = pin[:-1]
                     output = output[:-2]
                     self.drawText(45, 30, output)
-                    self.disp.image(self.image)
-                    self.disp.display()
+                    self.Display()
                 elif pkey[0] in self.numbers and len(pin) < 4:
                     pin += str(pkey[0])
                     output += '*'
                     output += ' '
                     self.drawText(45, 30, output)
-                    self.disp.image(self.image)
-                    self.disp.display()
+                    self.Display()
                 else:
                     continue
         return pin
@@ -140,7 +122,7 @@ class PaymentWindow(BaseWindow):
         self.pn532 = pn532
         super().__init__(disp)
 
-    def show(self):
+    async def show(self):
         aw = AmountWindow(self.disp)
         aw.show()
         amount = aw.getAmount(self.keypad)
@@ -151,8 +133,10 @@ class PaymentWindow(BaseWindow):
             pw.show()
             pin = pw.getPin(self.keypad)
             token = getToken()
-            response = getPINResponse(token, amount, pin, cardId)
-            print(response.text)
+            response = await getPINResponse(token, amount, pin, cardId)
+            self.newImage()
+            self.drawText(30, 30, 'Een ogenblik AUB')
+            self.Display()
             while not response.status_code == 201:
                 self.newImage()
                 self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
@@ -160,7 +144,7 @@ class PaymentWindow(BaseWindow):
                     print(response.text)
                     if response.text == 'Unauthorized':
                         token = getToken()
-                        response = getPINResponse(token, amount, pin, cardId)
+                        response = await getPINResponse(token, amount, pin, cardId)
                     else:
                         self.drawText(30, 30, 'Incorrect PIN.')
                         self.disp.image(self.image)
@@ -168,7 +152,7 @@ class PaymentWindow(BaseWindow):
                         time.sleep(1)
                         pw.show()
                         pin = pw.getPin(self.keypad)
-                        response = getPINResponse(token, amount, pin, cardId)
+                        response = await getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
                     print(response.text)
                     self.drawText(10, 30, 'Kaart niet herkend')
@@ -177,9 +161,9 @@ class PaymentWindow(BaseWindow):
                     time.sleep(1)
                     pw.show()
                     cardId = ReadCard(self.pn532)
-                    if cardId is not None:
+                    if cardId:
                         pin = pw.getPin(self.keypad)
-                        response = getPINResponse(token, amount, pin, cardId)
+                        response = await getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 429 or response.status_code == 403:
                     raise UserError('Kaart geblokkeerd.')
                 elif response.status_code == 400:

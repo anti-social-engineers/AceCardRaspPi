@@ -1,7 +1,7 @@
 from Configure import *
 from PL.Windows import *
 from BLL.CustomErrors import *
-import sys
+import asyncio
 
 
 class Main:
@@ -31,7 +31,7 @@ class Main:
                 if pkey:
                     time.sleep(0.5)
                     if pkey[0] == 1:
-                        PaymentWindow(disp, keypad, pn532).show()
+                        asyncio.run(PaymentWindow(disp, keypad, pn532).show())
                         time.sleep(5)
                         self.showModeWindow(disp)
                     elif pkey[0] == 2:
