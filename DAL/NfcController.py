@@ -57,7 +57,7 @@ def ReadCard(pn532):
                 to_be_encrypted_cardId = encrypted_cardId[0:45]
                 decrypted_cardId = AESecryption().decrypt(to_be_encrypted_cardId)
                 print('==============================================================')
-                print('CARD ID FOUND: {0}'.format(decrypted_cardId))
+                print('READING DONE: {0}'.format(decrypted_cardId))
                 print('==============================================================')
                 return encrypted_cardId
             else:

@@ -3,6 +3,7 @@ from PL.AbstractBaseWindow import BaseWindow
 from DAL.NfcController import WriteCard, ReadCard, SecureCard
 from DAL.ApiController import getToken
 from BLL.CustomErrors import *
+from PIL import Image, ImageDraw
 import time
 
 
@@ -12,9 +13,14 @@ class MainWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
-        self.drawText(30, 10, 'Welkom bij Ace')
-        self.disp.image(self.image)
+        base = Image.open('nfc.png')
+        txt = Image.new('1', base.size)
+        d = ImageDraw.Draw(txt)
         self.disp.display()
+
+    #     self.drawText(30, 10, 'Welkom bij Ace')
+    #     self.disp.image(self.image)
+    #     self.disp.display()
 
 class ModeWindow(BaseWindow):
 
@@ -148,9 +154,6 @@ class PaymentWindow(BaseWindow):
             while not response.status_code == 201:
                 self.newImage()
                 self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
-                # animation = ''
-                # loading = 0
-                # self.loading(response, animation, loading)
                 if response.status_code == 401:
                     print(response.text)
                     if response.text == 'Unauthorized':
