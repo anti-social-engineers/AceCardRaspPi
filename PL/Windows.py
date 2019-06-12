@@ -54,7 +54,10 @@ class AmountWindow(BaseWindow):
                     break
                 elif pkey[0] == '*' and len(amount) > 0:
                     amount = amount[:-1]
-                    self.drawText(50, 30, str(int(amount) / float(100)))
+                    if not amount:
+                        self.drawText(50, 30, '0.00')
+                    else:
+                        self.drawText(50, 30, str(int(amount) / float(100)))
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] in self.numbers:
