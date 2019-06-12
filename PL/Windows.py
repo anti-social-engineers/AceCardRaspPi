@@ -13,7 +13,7 @@ class MainWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self):
-        base = Image.open('nfc.png')
+        base = Image.open('PL/nfc.png')
         txt = Image.new('1', base.size)
         d = ImageDraw.Draw(txt)
         self.disp.display()
