@@ -57,13 +57,13 @@ class AmountWindow(BaseWindow):
                     self.drawText(50, 30, str(int(amount) / float(100)))
                     self.disp.image(self.image)
                     self.disp.display()
-                elif int(pkey[0]) in self.numbers:
+                elif pkey[0] in self.numbers:
                     amount += str(pkey[0])
                     self.drawText(50, 30, str(int(amount) / float(100)))
                     self.disp.image(self.image)
                     self.disp.display()
-                elif pkey[0] == 'C':
-                    raise CancelError
+                # elif pkey[0] == 'C':
+                #     raise CancelError
                 else:
                     continue
         return int(amount)/float(100)
@@ -111,7 +111,7 @@ class PinWindow(BaseWindow):
                     self.drawText(40, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
-                elif int(pkey[0]) in self.numbers and len(pin) < 4:
+                elif pkey[0] in self.numbers and len(pin) < 4:
                     pin += str(pkey[0])
                     output += '*'
                     output += ' '

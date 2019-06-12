@@ -25,8 +25,8 @@ class Main:
 
     def mainLoop(self, disp, keypad, pn532):
         self.showModeWindow(disp)
-        try:
-            while True:
+        while True:
+            try:
                 pkey = keypad.pressed_keys
                 if pkey:
                     time.sleep(0.5)
@@ -35,26 +35,26 @@ class Main:
                         time.sleep(2)
                         self.showModeWindow(disp)
                     elif pkey[0] == 2:
-                             ww = WriteWindow(disp)
-                             ww.show(pn532)
-                             sw = SecureWindow(disp)
-                             sw.show(pn532, ww.getCardId(), keypad)
-                             time.sleep(2)
-                             self.showModeWindow(2)
+                         ww = WriteWindow(disp)
+                         ww.show(pn532)
+                         sw = SecureWindow(disp)
+                         sw.show(pn532, ww.getCardId(), keypad)
+                         time.sleep(2)
+                         self.showModeWindow(disp)
                     else:
-                        continue
-        except UserError as e:
-            DisplayError(disp, str(e)).show()
-            time.sleep(5)
-            self.showModeWindow(disp)
-        except NFCScanError as e:
-            print(str(e))
-            self.showModeWindow(disp)
-        except CancelError:
-            self.showModeWindow(disp)
-        except ApiError as e:
-            print(str(e))
-            self.showModeWindow(disp)
+                         continue
+            except UserError as e:
+                DisplayError(disp, str(e)).show()
+                time.sleep(2)
+                self.showModeWindow(disp)
+            except NFCScanError as e:
+                print(str(e))
+                self.showModeWindow(disp)
+            except CancelError:
+                self.showModeWindow(disp)
+            except ApiError as e:
+                print(str(e))
+                self.showModeWindow(disp)
 
 
 
