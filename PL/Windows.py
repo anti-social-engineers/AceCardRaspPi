@@ -16,7 +16,6 @@ class MainWindow(BaseWindow):
         self.disp.image(self.image)
         self.disp.display()
 
-
 class ModeWindow(BaseWindow):
 
     def __init__(self, disp):
@@ -32,6 +31,7 @@ class ModeWindow(BaseWindow):
 class AmountWindow(BaseWindow):
 
     def __init__(self, disp):
+        self.numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         super().__init__(disp)
 
     def show(self):
@@ -42,83 +42,82 @@ class AmountWindow(BaseWindow):
 
     def getAmount(self, keypad):
         amount = ''
-        numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        okPressed = False
-        while not okPressed:
+        while True:
             pkey = keypad.pressed_keys
             if pkey:
                 self.newImage()
                 self.drawText(30, 10, 'Voer bedrag in')
                 self.drawText(5, 50, '* | Terug')
                 self.drawText(80, 50, '# | OK')
-                time.sleep(0.5)
+                time.sleep(0.25)
                 if pkey[0] == '#':
-                    okPressed = True
+                    break
                 elif pkey[0] == '*' and len(amount) > 0:
                     amount = amount[:-1]
                     self.drawText(50, 30, str(int(amount) / float(100)))
                     self.disp.image(self.image)
                     self.disp.display()
-                elif int(pkey[0]) in numbers:
+                elif int(pkey[0]) in self.numbers:
                     amount += str(pkey[0])
                     self.drawText(50, 30, str(int(amount) / float(100)))
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] == 'C':
-                    raise KeyboardInterrupt
+                    raise CancelError
                 else:
                     continue
-        return float(int(amount)/float(100))
+        return int(amount)/float(100)
 
 class PinWindow(BaseWindow):
 
     def __init__(self, disp, amount):
         self.amount = amount
+        self.numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         super().__init__(disp)
 
-    def show(self):
+    def showCard(self):
         self.newImage()
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(30, 30, "Uw kaart AUB")
         self.disp.image(self.image)
         self.disp.display()
 
-    def getPin(self, keypad):
+    def show(self):
         self.newImage()
         self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
         self.drawText(30, 30, "Uw PIN AUB")
         self.disp.image(self.image)
         self.disp.display()
+
+    def getPin(self, keypad):
+        self.show()
         time.sleep(1)
         pin = ''
         output = ''
-        okPressed = False
-        numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        while not okPressed:
+        self.show()
+        while True:
             self.newImage()
             self.drawText(30, 10, 'TOT {0} EUR'.format(self.amount))
             self.drawText(5, 50, '* | Terug')
             self.drawText(80, 50, '# | OK')
             pkey = keypad.pressed_keys
             if pkey:
-                time.sleep(0.5)
+                time.sleep(0.25)
                 if pkey[0] == '#':
-                    okPressed = True
+                    break
                 elif pkey[0] == "*" and len(pin) > 0:
                     pin = pin[:-1]
                     output = output[:-2]
                     self.drawText(40, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
-                elif int(pkey[0]) in numbers and len(pin) < 4:
+                elif int(pkey[0]) in self.numbers and len(pin) < 4:
                     pin += str(pkey[0])
                     output += '*'
                     output += ' '
                     self.drawText(40, 30, output)
                     self.disp.image(self.image)
                     self.disp.display()
-                elif pkey[0] == 'C':
-                    raise CancelError
                 else:
                     continue
         return pin
@@ -134,14 +133,11 @@ class PaymentWindow(BaseWindow):
         aw = AmountWindow(self.disp)
         aw.show()
         amount = aw.getAmount(self.keypad)
-
         pw = PinWindow(self.disp, amount)
-        pw.show()
-        # cardId = '/aetHCBPxhfa2ZMab6hPKxITPqV4ALTqX9ykwZLfbis=0000'
+        pw.showCard()
         cardId = ReadCard(self.pn532)
-        print(cardId)
-        if cardId is not None:
-            print("passed condition cardId")
+        if cardId:
+            pw.show()
             pin = pw.getPin(self.keypad)
             token = getToken()
             response = getPINResponse(token, amount, pin, cardId)
@@ -152,6 +148,7 @@ class PaymentWindow(BaseWindow):
                 # loading = 0
                 # self.loading(response, animation, loading)
                 if response.status_code == 401:
+                    print(response.text)
                     if response.text == 'Unauthorized':
                         token = getToken()
                         response = getPINResponse(token, amount, pin, cardId)
@@ -164,10 +161,11 @@ class PaymentWindow(BaseWindow):
                         pin = pw.getPin(self.keypad)
                         response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
-                    self.drawText(10, 30, 'Kaart is niet herkend')
-                    time.sleep(1)
+                    print(response.text)
+                    self.drawText(10, 30, 'Kaart niet herkend')
                     self.disp.image(self.image)
                     self.disp.display()
+                    time.sleep(1)
                     pw.show()
                     cardId = ReadCard(self.pn532)
                     if cardId is not None:
@@ -188,8 +186,8 @@ class PaymentWindow(BaseWindow):
         else:
             raise NFCScanError
 
-    def loading(self, response, animation, loading):
-        while response is None:
+    def loading(self, animation, loading):
+        while True:
             if loading > 3:
                 loading = 0
                 animation = ''
@@ -207,13 +205,13 @@ class WriteWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self, pn532):
-        self.drawText(50, 10, 'Plaats the kaart op de scanner')
+        self.drawText(10, 30, 'Plaats the kaart op de scanner')
         self.disp.image(self.image)
         self.disp.display()
         self.cardId = WriteCard(pn532)
         if self.cardId:
             self.newImage()
-            self.drawText(50, 10, 'Kaart geschreven met Id:')
+            self.drawText(10, 10, 'Kaart geschreven met Id:')
             self.drawText(50, 30, '{0}'.format(self.cardId))
             self.disp.image(self.image)
             self.disp.display()
@@ -230,9 +228,9 @@ class SecureWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self, pn532, cardId, keypad):
-        self.drawText(50, 10, 'Kaart geschreven met Id: {}')
-        self.drawText(50, 20, 'Wilt u de kaart met Id {0} beveiligen?'.format(cardId))
-        self.drawText(50, 30, '{0}'.format(cardId))
+        self.drawText(10, 10, 'Wilt u de kaart met Id:')
+        self.drawText(30, 30, '{0}'.format(cardId))
+        self.drawText(30, 50, 'Beveiligen?')
         self.drawText(5, 50, '* | NO')
         self.drawText(100, 50, '# | YES')
         self.disp.image(self.image)
@@ -247,11 +245,11 @@ class SecureWindow(BaseWindow):
                 time.sleep(0.5)
                 if pkey[0] == '#':
                     SecureCard(pn532)
-                    self.drawText(10, 10, 'Sector sector overschreven. Verwijder kaart van scanner')
+                    self.drawText(30, 30, 'DONE')
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] ==  '*':
-                    self.drawText(10, 10, 'Kaart beveiliging onderbroken')
+                    self.drawText(30, 30, 'CANCELLED')
                     self.disp.image(self.image)
                     self.disp.display()
                 elif pkey[0] == "C":

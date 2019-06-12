@@ -26,6 +26,7 @@ def WriteCard(pn532):
             block = block_list[i]
             if not pn532.mifare_classic_write_block(block, bytearray(splitted_cardId_list[i], "UTF-8")):
                 raise NFCScanError("Error during writing! Failed to write on block {0}".format(block))
+    print("Writing done")
     return cardId
 
 

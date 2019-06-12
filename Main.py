@@ -24,21 +24,21 @@ class Main:
         ModeWindow(display).show()
 
     def mainLoop(self, disp, keypad, pn532):
-        self.showModeWindow(disp)
         try:
             while True:
+                self.showModeWindow(disp)
                 pkey = keypad.pressed_keys
                 if pkey:
                     time.sleep(0.5)
                     if pkey[0] == 1:
                         PaymentWindow(disp, keypad, pn532).show()
+                        time.sleep(2)
                     elif pkey[0] == 2:
                              ww = WriteWindow(disp)
                              ww.show(pn532)
                              sw = SecureWindow(disp)
                              sw.show(pn532, ww.getCardId(), keypad)
-                             time.sleep(5)
-                             self.showModeWindow(disp)
+                             time.sleep(2)
                     else:
                         continue
         except UserError as e:
