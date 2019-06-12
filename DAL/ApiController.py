@@ -18,7 +18,7 @@ def openConfig():
 def getToken():
     reponse = getTokenResponse()
     if reponse.status_code == 500:
-        raise ApiError('Error 500')
+        raise ApiError('Error token 500')
     return reponse.json()['jsonWebToken']
 
 def getPINResponse(token, amount, cardPin, cardId):
