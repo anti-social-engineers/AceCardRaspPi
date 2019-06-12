@@ -59,4 +59,5 @@ class Main:
 
 
 if __name__ == '__main__':
-    asyncio.run(Main().Start())
+    x = Main().Start()
+    asyncio.run(x)
