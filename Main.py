@@ -6,7 +6,7 @@ import asyncio
 
 class Main:
 
-    def Start(self):
+    async def Start(self):
 
         pn532 = PN532().initialize()
         keypad = MatrixKeyPad().initialize()
@@ -18,12 +18,12 @@ class Main:
 
         MainWindow(disp).show()
         time.sleep(2)
-        self.mainLoop(disp, keypad, pn532)
+        await self.mainLoop(disp, keypad, pn532)
 
     def showModeWindow(self, display):
         ModeWindow(display).show()
 
-    def mainLoop(self, disp, keypad, pn532):
+    async def mainLoop(self, disp, keypad, pn532):
         self.showModeWindow(disp)
         while True:
             try:
@@ -31,8 +31,7 @@ class Main:
                 if pkey:
                     time.sleep(0.5)
                     if pkey[0] == 1:
-                        pw = PaymentWindow(disp, keypad, pn532).show()
-                        asyncio.run(pw)
+                        await PaymentWindow(disp, keypad, pn532).show()
                         time.sleep(5)
                         self.showModeWindow(disp)
                     elif pkey[0] == 2:
@@ -60,4 +59,4 @@ class Main:
 
 
 if __name__ == '__main__':
-    Main().Start()
+    asyncio.run(Main().Start())
