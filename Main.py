@@ -31,7 +31,8 @@ class Main:
                 if pkey:
                     time.sleep(0.5)
                     if pkey[0] == 1:
-                        asyncio.run(PaymentWindow(disp, keypad, pn532).show())
+                        pw = PaymentWindow(disp, keypad, pn532).show()
+                        asyncio.run(pw)
                         time.sleep(5)
                         self.showModeWindow(disp)
                     elif pkey[0] == 2:
