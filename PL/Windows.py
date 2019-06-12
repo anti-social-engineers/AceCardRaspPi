@@ -16,7 +16,9 @@ class MainWindow(BaseWindow):
         base = Image.open('PL/nfc.png')
         txt = Image.new('1', base.size)
         d = ImageDraw.Draw(txt)
+        self.disp.image(txt)
         self.disp.display()
+        time.sleep(10)
 
     #     self.drawText(30, 10, 'Welkom bij Ace')
     #     self.disp.image(self.image)
