@@ -1,12 +1,12 @@
 from Configure import *
 from PL.Windows import *
 from BLL.CustomErrors import *
-import asyncio
+import sys
 
 
 class Main:
 
-    async def Start(self):
+    def Start(self):
 
         pn532 = PN532().initialize()
         keypad = MatrixKeyPad().initialize()
@@ -18,12 +18,12 @@ class Main:
 
         MainWindow(disp).show()
         time.sleep(2)
-        await self.mainLoop(disp, keypad, pn532)
+        self.mainLoop(disp, keypad, pn532)
 
     def showModeWindow(self, display):
         ModeWindow(display).show()
 
-    async def mainLoop(self, disp, keypad, pn532):
+    def mainLoop(self, disp, keypad, pn532):
         self.showModeWindow(disp)
         while True:
             try:
@@ -31,7 +31,7 @@ class Main:
                 if pkey:
                     time.sleep(0.5)
                     if pkey[0] == 1:
-                        await PaymentWindow(disp, keypad, pn532).show()
+                        PaymentWindow(disp, keypad, pn532).show()
                         time.sleep(5)
                         self.showModeWindow(disp)
                     elif pkey[0] == 2:
@@ -59,5 +59,4 @@ class Main:
 
 
 if __name__ == '__main__':
-    x = Main().Start()
-    asyncio.run(x)
+    Main().Start()

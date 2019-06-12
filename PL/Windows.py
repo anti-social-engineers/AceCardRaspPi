@@ -122,7 +122,7 @@ class PaymentWindow(BaseWindow):
         self.pn532 = pn532
         super().__init__(disp)
 
-    async def show(self):
+    def show(self):
         aw = AmountWindow(self.disp)
         aw.show()
         amount = aw.getAmount(self.keypad)
@@ -133,10 +133,8 @@ class PaymentWindow(BaseWindow):
             pw.show()
             pin = pw.getPin(self.keypad)
             token = getToken()
-            response = await getPINResponse(token, amount, pin, cardId)
-            self.newImage()
-            self.drawText(30, 30, 'Een ogenblik AUB')
-            self.Display()
+            response = getPINResponse(token, amount, pin, cardId)
+            print(response.text)
             while not response.status_code == 201:
                 self.newImage()
                 self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
@@ -144,7 +142,7 @@ class PaymentWindow(BaseWindow):
                     print(response.text)
                     if response.text == 'Unauthorized':
                         token = getToken()
-                        response = await getPINResponse(token, amount, pin, cardId)
+                        response = getPINResponse(token, amount, pin, cardId)
                     else:
                         self.drawText(30, 30, 'Incorrect PIN.')
                         self.disp.image(self.image)
@@ -152,7 +150,7 @@ class PaymentWindow(BaseWindow):
                         time.sleep(1)
                         pw.show()
                         pin = pw.getPin(self.keypad)
-                        response = await getPINResponse(token, amount, pin, cardId)
+                        response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
                     print(response.text)
                     self.drawText(10, 30, 'Kaart niet herkend')
@@ -161,9 +159,9 @@ class PaymentWindow(BaseWindow):
                     time.sleep(1)
                     pw.show()
                     cardId = ReadCard(self.pn532)
-                    if cardId:
+                    if cardId is not None:
                         pin = pw.getPin(self.keypad)
-                        response = await getPINResponse(token, amount, pin, cardId)
+                        response = getPINResponse(token, amount, pin, cardId)
                 elif response.status_code == 429 or response.status_code == 403:
                     raise UserError('Kaart geblokkeerd.')
                 elif response.status_code == 400:

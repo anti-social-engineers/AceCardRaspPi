@@ -1,8 +1,6 @@
 import json
 import requests
 from BLL.CustomErrors import ApiError
-import time
-
 
 def getTokenResponse():
     url = 'https://api.aceofclubs.nl/api/login'
@@ -23,7 +21,7 @@ def getToken():
         raise ApiError('Error 500')
     return reponse.json()['jsonWebToken']
 
-async def getPINResponse(token, amount, cardPin, cardId):
+def getPINResponse(token, amount, cardPin, cardId):
     headers = {'Authorization': 'Bearer {0}'.format(token)}
     url = 'https://api.aceofclubs.nl/api/club/payment'
     print(amount, cardPin, cardId)
