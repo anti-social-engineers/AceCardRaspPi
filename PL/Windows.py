@@ -198,12 +198,12 @@ class SecureWindow(BaseWindow):
                 time.sleep(0.5)
                 if pkey[0] == '#':
                     if SecureCard(pn532):
-                        self.drawText(50, 30, 'DONE')
+                        self.drawText(45, 30, 'DONE')
                         self.disp.image(self.image)
                         self.Display()
                         break
                 elif pkey[0] == '*':
-                    self.drawText(50, 30, 'CANCELLED')
+                    self.drawText(45, 30, 'CANCELLED')
                     self.disp.image(self.image)
                     self.Display()
                     break
@@ -231,6 +231,7 @@ class BlockModeWindow(BaseWindow):
             self.drawText(10, 30, 'DONE')
             self.Display()
             sw = SecureWindow(self.disp)
+            time.sleep(3)
             sw.show(cardId)
             sw.confirmBlock(self.keypad, self.pn532)
         else:

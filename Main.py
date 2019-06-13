@@ -37,7 +37,7 @@ class Main:
                     elif pkey[0] == 2:
                          ww = BlockModeWindow(disp, pn532, keypad)
                          ww.show(pn532)
-                         time.sleep(2)
+                         time.sleep(5)
                          self.showModeWindow(disp)
                     else:
                          continue
