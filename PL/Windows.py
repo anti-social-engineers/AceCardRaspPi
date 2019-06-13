@@ -183,8 +183,8 @@ class SecureWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self, cardId):
-        self.drawText(10, 30, '{0}'.format(cardId))
-        self.drawText(30, 40, 'Block?')
+        self.drawText(10, 10, '{0}'.format(cardId))
+        self.drawText(30, 30, 'Block?')
         self.drawText(5, 50, '* | NO')
         self.drawText(100, 50, '# | YES')
         self.disp.image(self.image)
@@ -229,9 +229,7 @@ class BlockModeWindow(BaseWindow):
         if cardId:
             self.newImage()
             self.drawText(10, 30, 'DONE')
-            self.drawText(20, 30, '{0}'.format(cardId))
             self.Display()
-            time.sleep(5)
             sw = SecureWindow(self.disp)
             sw.show(cardId)
             sw.confirmBlock(self.keypad, self.pn532)
