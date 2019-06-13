@@ -26,10 +26,10 @@ def generateUid(uid):
 def get_decoded_string(encoded):
     return binascii.hexlify(encoded).decode()
 
-def login():
+def printJson(test):
     with open('config.json') as json_file:
         data = json.load(json_file)
-        print(data['email'])
+        print(data[test])
 
 def writejson():
     data = {'email': 'raspberry.pi@aceofclubs.nl', 'password': 'xpc^>smGBTRjKLs:Xk6&I>6&w5m~<WC-',

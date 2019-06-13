@@ -35,10 +35,8 @@ class Main:
                         time.sleep(5)
                         self.showModeWindow(disp)
                     elif pkey[0] == 2:
-                         ww = WriteWindow(disp)
+                         ww = BlockModeWindow(disp, pn532, keypad)
                          ww.show(pn532)
-                         sw = SecureWindow(disp)
-                         sw.show(pn532, ww.getCardId(), keypad)
                          time.sleep(2)
                          self.showModeWindow(disp)
                     else:

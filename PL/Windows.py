@@ -177,45 +177,18 @@ class PaymentWindow(BaseWindow):
         else:
             raise NFCScanError
 
-
-class WriteWindow(BaseWindow):
-
-    def __init__(self, disp):
-        self.cardId = None
-        super().__init__(disp)
-
-    def show(self, pn532):
-        self.drawText(10, 30, 'Plaats the kaart op de scanner')
-        self.disp.image(self.image)
-        self.disp.display()
-        self.cardId = WriteCard(pn532)
-        if self.cardId:
-            self.newImage()
-            self.drawText(10, 10, 'Kaart geschreven met Id:')
-            self.drawText(50, 30, '{0}'.format(self.cardId))
-            self.disp.image(self.image)
-            self.disp.display()
-            time.sleep(3)
-
-    def getCardId(self):
-        return self.cardId
-
-
-
 class SecureWindow(BaseWindow):
 
     def __init__(self, disp):
         super().__init__(disp)
 
-    def show(self, pn532, cardId, keypad):
-        self.drawText(10, 10, 'Wilt u de kaart met Id:')
+    def show(self, cardId):
         self.drawText(30, 30, '{0}'.format(cardId))
-        self.drawText(30, 50, 'Beveiligen?')
+        self.drawText(30, 40, 'Block?')
         self.drawText(5, 50, '* | NO')
         self.drawText(100, 50, '# | YES')
         self.disp.image(self.image)
         self.disp.display()
-        self.confirmBlock(keypad, pn532)
 
     def confirmBlock(self, keyPad, pn532):
         while True:
@@ -224,20 +197,44 @@ class SecureWindow(BaseWindow):
             if pkey:
                 time.sleep(0.5)
                 if pkey[0] == '#':
-                    SecureCard(pn532)
-                    self.drawText(30, 30, 'DONE')
-                    self.disp.image(self.image)
-                    self.disp.display()
-                elif pkey[0] ==  '*':
+                    if SecureCard(pn532):
+                        self.drawText(30, 30, 'DONE')
+                        self.disp.image(self.image)
+                        self.Display()
+                        break
+                elif pkey[0] == '*':
                     self.drawText(30, 30, 'CANCELLED')
                     self.disp.image(self.image)
-                    self.disp.display()
-                elif pkey[0] == "C":
-                    raise KeyboardInterrupt
+                    self.Display()
+                    break
+                # elif pkey[0] == "C":
+                #     raise CancelError
                 else:
                     continue
-            else:
-                continue
+        return
+
+
+
+class BlockModeWindow(BaseWindow):
+
+    def __init__(self, disp, pn532, keypad):
+        self.pn532 = pn532
+        self.keypad = keypad
+        super().__init__(disp)
+
+    def show(self, pn532):
+        self.drawText(10, 30, 'Waiting for card...')
+        cardId = WriteCard(pn532)
+        self.Display()
+        if cardId:
+            self.newImage()
+            self.drawText(10, 10, 'DONE')
+            self.drawText(30, 30, '{0}'.format(cardId))
+            self.Display()
+            time.sleep(3)
+            sw = SecureWindow(self.disp)
+            sw.show(cardId)
+            sw.confirmBlock(self.keypad, self.pn532)
 
 class DisplayError(BaseWindow):
 

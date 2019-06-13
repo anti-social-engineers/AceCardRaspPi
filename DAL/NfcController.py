@@ -83,4 +83,5 @@ def SecureCard(pn532):
     dataArray = bytearray.fromhex(sector_trailer_block)
     if not pn532.mifare_classic_write_block(sectory_trailer, dataArray):
         raise NFCScanError('Error! Failed to write the sector trailer')
+    print("Succesfully secured")
     return True
