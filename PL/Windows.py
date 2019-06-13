@@ -183,10 +183,10 @@ class SecureWindow(BaseWindow):
         super().__init__(disp)
 
     def show(self, cardId):
-        self.drawText(10, 10, '{0}'.format(cardId))
-        self.drawText(30, 30, 'Block?')
+        self.drawText(20, 10, '{0}'.format(cardId))
+        self.drawText(50, 30, 'Block?')
         self.drawText(5, 50, '* | NO')
-        self.drawText(100, 50, '# | YES')
+        self.drawText(80, 50, '# | YES')
         self.disp.image(self.image)
         self.disp.display()
 
@@ -198,12 +198,12 @@ class SecureWindow(BaseWindow):
                 time.sleep(0.5)
                 if pkey[0] == '#':
                     if SecureCard(pn532):
-                        self.drawText(30, 30, 'DONE')
+                        self.drawText(50, 30, 'DONE')
                         self.disp.image(self.image)
                         self.Display()
                         break
                 elif pkey[0] == '*':
-                    self.drawText(30, 30, 'CANCELLED')
+                    self.drawText(50, 30, 'CANCELLED')
                     self.disp.image(self.image)
                     self.Display()
                     break
