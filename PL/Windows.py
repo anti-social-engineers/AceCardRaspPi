@@ -224,8 +224,8 @@ class BlockModeWindow(BaseWindow):
 
     def show(self, pn532):
         self.drawText(10, 30, 'Waiting for card...')
-        cardId = WriteCard(pn532)
         self.Display()
+        cardId = WriteCard(pn532)
         if cardId:
             self.newImage()
             self.drawText(10, 10, 'DONE')
@@ -235,6 +235,8 @@ class BlockModeWindow(BaseWindow):
             sw = SecureWindow(self.disp)
             sw.show(cardId)
             sw.confirmBlock(self.keypad, self.pn532)
+        else:
+            raise
 
 class DisplayError(BaseWindow):
 
