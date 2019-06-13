@@ -53,10 +53,7 @@ class Main:
             except ApiError as e:
                 print(str(e))
                 self.showModeWindow(disp)
-            except KeyboardInterrupt:
-                disp.reset()
-                disp.clear()
-                disp.display()
+           
 
 
 
