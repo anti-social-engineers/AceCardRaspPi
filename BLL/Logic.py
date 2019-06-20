@@ -1,6 +1,6 @@
+from BLL.CustomErrors import NFCScanError
 import string
 import random
-import sys
 import binascii
 import json
 
@@ -9,16 +9,24 @@ CARD_KEY_A = [0x6B, 0x3D, 0x73, 0x34, 0x4C, 0x29]
 
 CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
+"""
+Split the 48 character long encrypted card code 
+into 3 parts of max 16 bytes to write on the seperate blocks
+"""
+
 def split_encrypted_into_blocks(seq):
     if len(seq) > 48:
         print("Something went wrong during encryption")
     else:
         return [seq[i:i+16] for i in range(0, len(seq), 16)]
 
+"""
+Since we use AES encryption and not make use of padding I add 8 characters 
+to the already 8 long unique manufacturer card Id
+"""
 def generateUid(uid):
     if(len(uid)) > 8:
-        print("uid too long")
-        sys.exit(-1)
+        raise NFCScanError
     else:
         chars = string.ascii_lowercase + string.digits
         return uid + ''.join(random.choice(chars) for _ in range(8))
@@ -26,6 +34,9 @@ def generateUid(uid):
 def get_decoded_string(encoded):
     return binascii.hexlify(encoded).decode()
 
+
+
+#TODO Remove this code!!!
 def printJson(test):
     with open('config.json') as json_file:
         data = json.load(json_file)

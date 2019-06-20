@@ -9,6 +9,9 @@ from Libraries.Adafruit_matrixkeypad import adafruit_matrixkeypad
 
 class PN532:
 
+    """
+    Configuring of the PN532. We configure the pins that are connected to the Pi. And initialize the library
+    """
     def __init__(self):
         self.i2c = busio.I2C(board.SCL, board.SDA)
         # With I2C, we recommend connecting RSTPD_N (reset) to a digital pin for manual
@@ -25,7 +28,9 @@ class PN532:
 
 
 class SSD106:
-
+    """
+    Configuring of the LCD. We configure the pins that are connected to the Pi. And initialize the library
+    """
     def __init__(self):
         # Raspberry Pi pin configuration:
         self.RST = 24
@@ -38,7 +43,10 @@ class SSD106:
         return Adafruit_SSD1306.SSD1306_128_64(rst=self.RST, dc=self.DC, spi=SPI.SpiDev(self.SPI_PORT, self.SPI_DEVICE, max_speed_hz=8000000))
 
 class MatrixKeyPad:
-
+    """
+    Configuring of the KeyPad. We configure the pins that are connected to the Pi. And initialize the library
+    keys are default keys that are projected on the keypad
+    """
     def __init__(self):
         self.cols = [DigitalInOut(x) for x in (board.D26, board.D20, board.D21)]
         self.rows = [DigitalInOut(x) for x in (board.D16, board.D5, board.D13, board.D19)]

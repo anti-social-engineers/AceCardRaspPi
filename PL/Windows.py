@@ -1,4 +1,4 @@
-from DAL.ApiController import getPINResponse
+from DAL.ApiController import getPaymentResponse
 from PL.AbstractBaseWindow import BaseWindow
 from DAL.NfcController import WriteCard, ReadCard, SecureCard
 from DAL.ApiController import getToken
@@ -61,8 +61,6 @@ class AmountWindow(BaseWindow):
                     amount += str(pkey[0])
                     self.drawText(50, 30, str(int(amount) / float(100)))
                     self.Display()
-                # elif pkey[0] == 'C':
-                #     raise CancelError
                 else:
                     continue
         return int(amount)/float(100)
@@ -123,6 +121,8 @@ class PaymentWindow(BaseWindow):
         aw = AmountWindow(self.disp)
         aw.show()
         amount = aw.getAmount(self.keypad)
+        if not (0.01 <= amount <= 50000.00):
+            raise UserError("Ongeldig brag")
         print("Amount = {0}".format(amount))
         pw = PinWindow(self.disp, amount)
         pw.show()
@@ -133,7 +133,7 @@ class PaymentWindow(BaseWindow):
             print("Pin = {0}".format(pin))
             token = getToken()
             print("Creating response!")
-            response = getPINResponse(token, amount, pin, cardId)
+            response = getPaymentResponse(token, amount, pin, cardId)
             print("Response: " + '\n' + str(response.text))
             while not response.status_code == 201:
                 self.newImage()
@@ -142,7 +142,7 @@ class PaymentWindow(BaseWindow):
                     print(response.text)
                     if response.text == 'Unauthorized':
                         token = getToken()
-                        response = getPINResponse(token, amount, pin, cardId)
+                        response = getPaymentResponse(token, amount, pin, cardId)
                     else:
                         self.drawText(30, 30, 'Incorrect PIN.')
                         self.disp.image(self.image)
@@ -150,7 +150,7 @@ class PaymentWindow(BaseWindow):
                         time.sleep(3)
                         pw.show()
                         pin = pw.getPin(self.keypad)
-                        response = getPINResponse(token, amount, pin, cardId)
+                        response = getPaymentResponse(token, amount, pin, cardId)
                 elif response.status_code == 404:
                     print(response.text)
                     self.drawText(10, 30, 'Kaart niet herkend')
@@ -159,9 +159,9 @@ class PaymentWindow(BaseWindow):
                     time.sleep(3)
                     pw.show()
                     cardId = ReadCard(self.pn532)
-                    if cardId is not None:
+                    if cardId:
                         pin = pw.getPin(self.keypad)
-                        response = getPINResponse(token, amount, pin, cardId)
+                        response = getPaymentResponse(token, amount, pin, cardId)
                 elif response.status_code == 429 or response.status_code == 403:
                     raise UserError('Kaart geblokkeerd.')
                 elif response.status_code == 400:
@@ -170,6 +170,7 @@ class PaymentWindow(BaseWindow):
                     raise UserError('Toegang geweigerd.')
                 else:
                     raise CancelError
+            self.newImage()
             self.drawText(30, 10, 'TOT {0} EUR'.format(amount))
             self.drawText(40, 30, 'AKKOORD')
             self.disp.image(self.image)
@@ -207,13 +208,9 @@ class SecureWindow(BaseWindow):
                     self.disp.image(self.image)
                     self.Display()
                     break
-                # elif pkey[0] == "C":
-                #     raise CancelError
                 else:
                     continue
         return
-
-
 
 class BlockModeWindow(BaseWindow):
 

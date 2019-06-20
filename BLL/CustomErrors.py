@@ -1,3 +1,7 @@
+
+"""
+Custom Exceptions I raise. I catch these in the Main.py and handle them all differently
+"""
 class NFCScanError(Exception):
     pass
 

@@ -3,6 +3,12 @@ from Libraries.Adafruit_pn532.adafruit_pn532 import MIFARE_CMD_AUTH_A, MIFARE_CM
 from DAL.Encryption import *
 from BLL.CustomErrors import NFCScanError
 
+
+"""
+Write to the card with the default key A. We write on block 40, 41, and 42. 
+When reading we Read the entire sector 10. Before we can write its first authenticates the card if the right key is used.
+
+"""
 def WriteCard(pn532):
     DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
     print("Waiting for card...")
@@ -30,6 +36,10 @@ def WriteCard(pn532):
     return cardId
 
 
+"""
+We use our new defined Key B to read the card. It returns the encrypted card Id. 
+This will be stored in a variable and be added as a parameter for the API call. 
+"""
 def ReadCard(pn532):
     print("Place the card on the Scanner")
     # key = openConfig()['Encryptionkey']
@@ -63,8 +73,14 @@ def ReadCard(pn532):
             else:
                 continue
     else:
-        raise Exception
+        raise NFCScanError
 
+
+"""
+This method overwrites the sector trailer of sector 10. 
+Making it impossible to write or read on the card without used the correct Key B
+It returns True if the trailer has been succesfully overwritten
+"""
 def SecureCard(pn532):
     DEFAULT_CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
     sectory_trailer = 43
