@@ -42,18 +42,18 @@ This will be stored in a variable and be added as a parameter for the API call.
 """
 def ReadCard(pn532):
     print("Place the card on the Scanner")
-    # key = openConfig()['Encryptionkey']
-    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+    # key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+    key = [0x75, 0x42, 0x64, 0x35, 0x5f, 0x5d]
     while True:
-        print("entered while loop")
+        print("Scanning...")
         uid = pn532.read_passive_target(timeout=0.5)
-        if uid is not None:
+        if uid:
             print("Found uid")
             print('Found card with UID: {0}'.format(get_decoded_string(uid)))
             encrypted_cardId = ""
             block_list = [40, 41, 42]
             for i in range(0, 3):
-                if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_A, key):
+                if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_B, key):
                     raise NFCScanError("Failed to Authenticate block, reading stopped at block: {0}".format(block_list[i]))
                 else:
                     try:
