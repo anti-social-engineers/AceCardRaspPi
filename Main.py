@@ -46,6 +46,7 @@ class Main:
                 time.sleep(5)
                 self.showModeWindow(disp)
             except NFCScanError as e:
+                print("failed")
                 print(str(e))
                 self.showModeWindow(disp)
             except CancelError:
