@@ -14,18 +14,17 @@ keys = [(1, 2, 3),
 keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
 
 
-def lel():
-    while True:
-        pressedKey()
+
 
 def pressedKey():
     while True:
         keys = keypad.pressed_keys
         if keys:
-            return keys[0]
+            print(keys[0])
+            time.sleep(0.5)
 
 
 if __name__ == '__main__':
-    print(lel())
+    pressedKey()
 
 
