@@ -14,7 +14,7 @@ def WriteCard(pn532):
     print("Waiting for card...")
     uid = None
     while uid is None:
-        uid = pn532.read_passive_target()
+        uid = pn532.read_passive_target(timeout=0.5)
     duid = get_decoded_string(uid)
     print("Card found!! uid: {0}".format(duid))
     cardId = generateUid(duid)
@@ -46,7 +46,7 @@ def ReadCard(pn532):
     key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
     while True:
         print("entered while loop")
-        uid = pn532.read_passive_target()
+        uid = pn532.read_passive_target(timeout=0.5)
         if uid is not None:
             print("Found uid")
             print('Found card with UID: {0}'.format(get_decoded_string(uid)))
@@ -87,7 +87,7 @@ def SecureCard(pn532):
     print("Place the card on the writer to start ")
     uid = None
     while uid is None:
-        uid = pn532.read_passive_target()
+        uid = pn532.read_passive_target(timeout=0.5)
     print("Found card with UID: {0}".format(get_decoded_string(uid)))
     print('==============================================================')
     print('WARNING: DO NOT REMOVE CARD FROM PN532 UNTIL FINISHED WRITING!')

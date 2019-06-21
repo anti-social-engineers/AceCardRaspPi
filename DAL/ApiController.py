@@ -31,7 +31,7 @@ We handle the reponse in the front-end by displaying for example if the PIN is w
 """
 def getPaymentResponse(token, amount, cardPin, cardId):
     headers = {'Authorization': 'Bearer {0}'.format(token)}
-    url = 'https://api.aceofclubs.nl/api/club/payment'
+    url = "{0}{1}".format(openConfig()['BaseURL'], 'club/payment')
     print(amount, cardPin, cardId)
     params = {
         "club_id" : openConfig()['ClubId'],
