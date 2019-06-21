@@ -47,7 +47,6 @@ def ReadCard(pn532):
     while True:
         print("entered while loop")
         uid = pn532.read_passive_target()
-        print(uid)
         if uid is not None:
             print("Found uid")
             print('Found card with UID: {0}'.format(get_decoded_string(uid)))
@@ -73,7 +72,6 @@ def ReadCard(pn532):
             print('==============================================================')
             return encrypted_cardId
         else:
-            print("not found")
             continue
 
 
