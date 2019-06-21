@@ -22,8 +22,10 @@ class PN532:
         self.req_pin = DigitalInOut(board.D12)
 
     def initialize(self):
+        print("initializing pn532")
         pn532 = PN532_I2C(self.i2c, debug=False, reset=self.reset_pin, req=self.req_pin)
         pn532.SAM_configuration()
+        print("firmware version: {0} ".format(pn532.get_firmware_version()))
         return pn532
 
 
@@ -56,4 +58,5 @@ class MatrixKeyPad:
                    ('*', 0, '#')]
 
     def initialize(self):
+
         return adafruit_matrixkeypad.Matrix_Keypad(self.rows, self.cols, self.keys)

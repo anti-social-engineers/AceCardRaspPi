@@ -126,6 +126,7 @@ class PaymentWindow(BaseWindow):
         print("Amount = {0}".format(amount))
         pw = PinWindow(self.disp, amount)
         pw.show()
+        print("entering reading card")
         cardId = ReadCard(self.pn532)
         print("CardId = {0}".format(cardId))
         if cardId:
