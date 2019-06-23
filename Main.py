@@ -1,8 +1,6 @@
 from Configure import *
 from PL.Windows import *
 from BLL.CustomErrors import *
-import sys
-
 
 class Main:
 
@@ -45,9 +43,7 @@ class Main:
                 DisplayError(disp, str(e)).show()
                 time.sleep(5)
                 self.showModeWindow(disp)
-            except NFCScanError as e:
-                print("failed")
-                print(str(e))
+            except NFCScanError:
                 self.showModeWindow(disp)
             except CancelError:
                 self.showModeWindow(disp)

@@ -4,9 +4,6 @@ import random
 import binascii
 import json
 
-
-CARD_KEY = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
 """
 Split the 48 character long encrypted card code 
 into 3 parts of max 16 bytes to write on the seperate blocks

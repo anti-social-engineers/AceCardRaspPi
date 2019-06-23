@@ -27,11 +27,13 @@ def WriteCard(pn532):
     for i in range(0, 3):
         print("Writing block {0}".format(block_list[i]))
         if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_A, DEFAULT_CARD_KEY):
-            raise NFCScanError("Failed to Authenticate block, writing stopped at block: {0}".format(block_list[i]))
+            print("Failed to Authenticate block, writing stopped at block: {0}".format(block_list[i]))
+            raise NFCScanError
         else:
             block = block_list[i]
             if not pn532.mifare_classic_write_block(block, bytearray(splitted_cardId_list[i], "UTF-8")):
-                raise NFCScanError("Error during writing! Failed to write on block {0}".format(block))
+                print("Error during writing! Failed to write on block {0}".format(block))
+                raise NFCScanError
     print("Writing done")
     return cardId
 
@@ -54,16 +56,19 @@ def ReadCard(pn532):
             block_list = [40, 41, 42]
             for i in range(0, 3):
                 if not pn532.mifare_classic_authenticate_block(uid, block_list[i], MIFARE_CMD_AUTH_B, key):
-                    raise NFCScanError("Failed to Authenticate block, reading stopped at block: {0}".format(block_list[i]))
+                    print("Failed to Authenticate block, reading stopped at block: {0}".format(block_list[i]))
+                    raise NFCScanError
                 else:
                     try:
                         block_data = bytearray(pn532.mifare_classic_read_block(block_list[i])).decode("UTF-8")
                         if block_data is not None:
                             encrypted_cardId += block_data
                         else:
-                            raise NFCScanError("No data to be found on block {0}".format(block_list[i]))
+                            print("No data to be found on block {0}".format(block_list[i]))
+                            raise NFCScanError
                     except:
-                        raise NFCScanError('Error during decoding block {0}'.format(block_list[i]))
+                        print('Error during decoding block {0}'.format(block_list[i]))
+                        raise NFCScanError
             print("All blocks are read, decrypting now....")
             to_be_encrypted_cardId = encrypted_cardId[0:45]
             decrypted_cardId = AESecryption().decrypt(to_be_encrypted_cardId)
@@ -73,8 +78,6 @@ def ReadCard(pn532):
             return encrypted_cardId
         else:
             continue
-
-
 
 """
 This method overwrites the sector trailer of sector 10. 
@@ -94,10 +97,12 @@ def SecureCard(pn532):
     print('==============================================================')
     if not pn532.mifare_classic_authenticate_block(uid, sectory_trailer, MIFARE_CMD_AUTH_A,
                                                        DEFAULT_CARD_KEY):
-        raise NFCScanError('Error! Failed to authenticate sector trailer. Try again')
+        print('Error! Failed to authenticate sector trailer. Try again')
+        raise NFCScanError
     sector_trailer_block = "{0} {1} {2}".format('6B 3D 73 34 4C 29', '70 F0 F8 FF', '75 42 64 35 5f 5d')
     dataArray = bytearray.fromhex(sector_trailer_block)
     if not pn532.mifare_classic_write_block(sectory_trailer, dataArray):
-        raise NFCScanError('Error! Failed to write the sector trailer')
+        print('Error! Failed to write the sector trailer')
+        raise NFCScanError
     print("Succesfully secured")
     return True
