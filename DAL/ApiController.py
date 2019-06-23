@@ -41,5 +41,3 @@ def getPaymentResponse(token, amount, cardPin, cardId):
     }
     return requests.post(url, json=params, headers=headers)
 
-def getCardKey():
-    return openConfig()['CardKey']
