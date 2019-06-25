@@ -7,7 +7,7 @@ Request a token from the API for the payment functionality
 """
 
 def getTokenResponse():
-    url = 'https://api.aceofclubs.nl/api/login'
+    url = "{0}{1}".format(openConfig()['BaseURL'], 'login')
     data = openConfig()
     params = {
         "email" : data['email'],
